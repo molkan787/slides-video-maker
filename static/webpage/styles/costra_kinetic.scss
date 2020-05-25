@@ -1,0 +1,55 @@
+.costra .kinetic{
+    perspective: 1000px;
+
+    .block1{
+        text-align: left;
+        display: inline-block;
+    }
+
+    .kc{
+        position: relative;
+    }
+
+    &.template-1{
+        .background{
+            background-color: #00C2CE;
+            transform-origin: 50% 100%;
+            transform-style: preserve-3d;
+        }
+        .kc-0{
+            transform-origin: 0 0;
+            color: #FBFF01;
+        }
+        .kc-2{
+            transform-origin: 0 100%;
+            color: #FBFF01;
+        }
+        .kc-3{
+            height: 0.3rem;
+            background-color: white;
+            position: relative;
+        }
+    }
+
+    &.template-2{
+        color: #2f2f2f;
+        .background{
+            background-color: yellow;
+            transform-origin: 50% 100%;
+            transform-style: preserve-3d;
+        }
+        .kc-0{
+            transform-origin: 0 0;
+            color: #00C2CE;
+        }
+        .kc-2{
+            transform-origin: 0 100%;
+            color: #00C2CE;
+        }
+        .kc-3{
+            height: 0.3rem;
+            background-color: #2f2f2f;
+            position: relative;
+        }
+    }
+}

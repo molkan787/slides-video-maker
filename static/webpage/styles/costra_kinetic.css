@@ -1,0 +1,70 @@
+.costra .kinetic {
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
+}
+
+.costra .kinetic .block1 {
+  text-align: left;
+  display: inline-block;
+}
+
+.costra .kinetic .kc {
+  position: relative;
+}
+
+.costra .kinetic.template-1 .background {
+  background-color: #00C2CE;
+  -webkit-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+}
+
+.costra .kinetic.template-1 .kc-0 {
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  color: #FBFF01;
+}
+
+.costra .kinetic.template-1 .kc-2 {
+  -webkit-transform-origin: 0 100%;
+          transform-origin: 0 100%;
+  color: #FBFF01;
+}
+
+.costra .kinetic.template-1 .kc-3 {
+  height: 0.3rem;
+  background-color: white;
+  position: relative;
+}
+
+.costra .kinetic.template-2 {
+  color: #2f2f2f;
+}
+
+.costra .kinetic.template-2 .background {
+  background-color: yellow;
+  -webkit-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+}
+
+.costra .kinetic.template-2 .kc-0 {
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  color: #00C2CE;
+}
+
+.costra .kinetic.template-2 .kc-2 {
+  -webkit-transform-origin: 0 100%;
+          transform-origin: 0 100%;
+  color: #00C2CE;
+}
+
+.costra .kinetic.template-2 .kc-3 {
+  height: 0.3rem;
+  background-color: #2f2f2f;
+  position: relative;
+}
+/*# sourceMappingURL=costra_kinetic.css.map */
