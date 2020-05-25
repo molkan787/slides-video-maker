@@ -1,9 +1,13 @@
-const element = document.getElementById('costra');
-const costra = new Costra('kinetic', element);
+let costra;
+
+function setup(type){
+    const element = document.getElementById('costra');
+    costra = new Costra(type, element);
+}
 
 function setSlides(slide1, slide2){
     return costra.setSlides(
-        JSON.parse(slide1),
+        slide1 ? JSON.parse(slide1) : null,
         JSON.parse(slide2)
     );
 }

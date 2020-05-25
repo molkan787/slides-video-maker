@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import { RendererDelegate } from './renderer-delegate';
-import { PresentationRenderer } from './presentation-renderer/';
+import { test1 } from './tests';
 
 const DEV = process.env.NODE_ENV === 'development';
 if(!DEV) app.disableHardwareAcceleration();
@@ -52,37 +52,8 @@ function createWindow () {
   })
 }
 
-function test(){
-  const renderer = new PresentationRenderer();
-  renderer.render([
-    {
-      content: [
-          'Small text size',
-          'Some bigger text is here!',
-          'Just another smaller text!'
-      ],
-      template: 'template-2'
-    }, {
-      content: [
-          'Thats the second slide',
-          'It is so beatiful, right?',
-          'Just another smaller text!'
-      ],
-      template: 'template-1'
-    }
-  ], {
-    outputFilename: "C:\\Users\\Dahmane\\Desktop\\presentation.mp4",
-    size: {
-      width: 1366,
-      height: 768
-    }
-  }).wait().then(status => {
-    console.log('Finished with status:', status);
-  })
-}
-
 app.on('ready', () => {
-  test()
+  test1()
   return
   createWindow()
   rendererDelegate = new RendererDelegate();

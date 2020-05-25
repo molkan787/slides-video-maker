@@ -9,7 +9,7 @@ class CostraAnimations{
 
     static slide(out){
         return {
-            translateX: out ? '-50%' : '50%',
+            translateX: out ? [0, '-50%'] : ['50%', 0],
             opacity: this._opacity(out),
             easing: out ? 'easeOutExpo' : 'easeInExpo'
         }

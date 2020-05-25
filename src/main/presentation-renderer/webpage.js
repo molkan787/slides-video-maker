@@ -9,10 +9,9 @@ export class WebPage{
     constructor(){
         this.window = null;
         this.slides = null;
-        this.currentSlideIndex = 0;
     }
 
-    async create(slides, size){
+    async create(type, slides, size){
         this.slides = slides;
         const { width, height } = size;
         const win = this.window = new BrowserWindow({
@@ -28,10 +27,12 @@ export class WebPage{
         win.loadFile(path.join(__static, 'webpage', 'index.html'));
         await this.didFinishLoad(win);
         await sleep(100);
+        await this.exec(`setup('${type}')`);
+        await sleep(50);
     }
 
     setSlides(slide1, slide2){
-        const slide1String = JSON.stringify(slide1).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n'); 
+        const slide1String = slide1 ? JSON.stringify(slide1).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n') : ''; 
         const slide2String = JSON.stringify(slide2).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n'); 
         return this.exec(`setSlides('${slide1String}', '${slide2String}')`);
     }

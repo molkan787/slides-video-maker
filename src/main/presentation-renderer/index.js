@@ -20,31 +20,27 @@ export class PresentationRenderer{
         this.tmpDirPath = path.join(app.getPath('temp'), 'SVM');
         FileExtractor.setBaseFolderPath(appDataDir);
         console.log('Temp dir:', this.tmpDirPath);
-        this.fps = 60;
+        this.fps = 30;
     }
 
     render(slides, options){
         const progress = new Progress(slides.length);
         (async () => {
             try {
-                const { size, outputFilename } = options;
+                const { type, size, outputFilename } = options;
                 const webpage = this.webpage = new WebPage();
                 progress.setStatus('starting');
-                await webpage.create(slides, size);
+                await webpage.create(type, slides, size);
                 await sleep(500);
                 await this.prepareFolder(this.tmpDirPath);
                 await this.rimraf(path.join(this.tmpDirPath, '*'));
                 progress.setStatus('rendering_transitions');
-                const transitions = [];
-                for(let i = 1; i < slides.length; i++){
-                    const transition = await this.renderTransition(slides, i);
-                    transitions.push(transition);
-                    progress.report(1, 0);
-                }
+                const inputs = await this.buildTimeline(progress, type, slides);
+                console.log('Timeline inputs:', inputs);
                 progress.setStatus('rendering_video');
                 await this.prepareFfmpeg();
                 await sleep(100);
-                await this.renderVideo(transitions, outputFilename);
+                await this.renderVideo(inputs, outputFilename);
                 progress.finish('completed');
                 webpage.destroy();
                 this.rimraf(path.join(this.tmpDirPath, '*'))
@@ -57,19 +53,68 @@ export class PresentationRenderer{
         return progress;
     }
 
-    renderVideo(transitions, outputFilename){
+    async buildTimeline(progress, type, slides){
+        const kinetic = type == 'kinetic';
+        const offset = kinetic ? 0 : 1;
+        const inputs = [];
+        let previous_tduration = 0;
+        let previous_options = [];
+        for(let i = offset; i < slides.length; i++){
+            if(progress.isFinished) break;
+            const slide = slides[i];
+            const transition = await this.renderTransition(slides, i);
+            const { outputDir, framesCount, durationFactor } = transition;
+            const tduration = durationFactor * 1000;
+            // Initial sequence
+            if(!kinetic && i == 1){
+                const duration = slides[0].duration - (tduration / 2);
+                inputs.push({
+                    filename: path.join(outputDir, 'frame0.png'),
+                    options: ['-loop 1', `-t ${duration / 1000}`]
+                });
+            }
+            
+            // Slides transition
+            inputs.push({
+                filename: path.join(outputDir, 'frame%d.png'),
+                options: ['-r ' + this.fps]
+            });
+
+            // Slide 
+            const lastframe = `frame${framesCount - 1}.png`;
+            const options = ['-loop 1'];
+            inputs.push({
+                filename: path.join(outputDir, lastframe),
+                options: options
+            });
+            if(kinetic){
+                let duration = slide.duration - (tduration / 2);
+                if(i == slides.length - 1){
+                    options.push(`-t ${duration / 1000}`);
+                }
+                if(i > 0){
+                    duration -= i == 1 ? previous_tduration : (previous_tduration / 2);
+                    previous_options.push(`-t ${duration / 1000}`);
+                }
+            }else{
+                const take_full_time = i > 0 && i < slides.length - 1;
+                const duration = slide.duration - (take_full_time ? tduration : tduration / 2);
+                options.push(`-t ${duration / 1000}`);
+            }
+            previous_options = options;
+            previous_tduration = tduration;
+            progress.report(1, 0);
+        }
+        return inputs;
+    }
+
+    renderVideo(inputs, outputFilename){
         return new Promise((resolve, reject) => {
             const ffmpeg = new ffmpegCommand();
-            ffmpeg
-            .input(path.join(transitions[0].outputDir, 'frame0.png'))
-            .inputOptions(['-loop 1', '-t 3'])
-            
-            for(let transition of transitions){
-                ffmpeg.input(path.join(transition.outputDir, 'frame%d.png'))
-                ffmpeg.inputOptions(['-r ' + this.fps])
-                const lastframe = `frame${transition.framesCount - 1}.png`
-                ffmpeg.input(path.join(transition.outputDir, lastframe))
-                ffmpeg.inputOptions(['-loop 1', '-t 3'])
+
+            for(let input of inputs){
+                const { filename, options } = input;
+                ffmpeg.input(filename).inputOptions(options);
             }
 
             ffmpeg.videoCodec('libx264')
@@ -97,7 +142,8 @@ export class PresentationRenderer{
         await this.recordFrames(outputDir, framesCount);
         return {
             outputDir,
-            framesCount
+            framesCount,
+            durationFactor
         }
     }
 
@@ -108,6 +154,7 @@ export class PresentationRenderer{
             const stage = i / (framesCount - 1);
             const filename = path.join(outputDir, `frame${i}.png`);
             await this.webpage.seekTransition(stage);
+            await sleep(30);
             const image = await this.webpage.capturePage();
             await this.writeFile(filename, image.toPNG());
         }

@@ -10,15 +10,15 @@ class Costra{
     }
 
     seek(stage){
-        // const time = stage * ANIMATION_DURATION; 
         this.animation1.seek(stage * this.animation1.duration);
         this.animation2.seek(stage * this.animation2.duration);
     }
 
     setSlides(slide1, slide2){
+        const skipFirst = !slide1;
         this.element.innerHTML = '';
-        this.animation2 = this.createSlide(slide2, false, 1000);
-        this.animation1 = this.createSlide(slide1, true);
+        this.animation2 = this.createSlide(slide2, false, skipFirst ? 500 : 1400);
+        this.animation1 = skipFirst ? anime({duration: 0}) : this.createSlide(slide1, !skipFirst);
         const totalDuration = Math.max(this.animation1.duration, this.animation2.duration);
         const factor = totalDuration / ANIMATION_DURATION;
         return factor;

@@ -1,6 +1,8 @@
 .costra .kinetic {
   -webkit-perspective: 1000px;
           perspective: 1000px;
+  color: white;
+  line-height: 0.35;
 }
 
 .costra .kinetic .block1 {
