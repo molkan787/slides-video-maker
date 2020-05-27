@@ -1,5 +1,6 @@
 html, body{
     overflow: hidden;
+    background-color: white;
 }
 .costra{
     display: block;
@@ -16,6 +17,9 @@ html, body{
         top: 0;
         left: 0;
         box-sizing: border-box;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
 
         &.block{
             display: block;
@@ -44,27 +48,14 @@ html, body{
     }
 
     .classic{
-        .image{
-            &.stretch{
-                width: 100%;
-                height: 100%;
-            }
-            &.zoom{
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-
-        .layer{
-            width: 100%;
-            height: 100%;
+        .item{
             position: absolute;
-            top: 0;
-            left: 0;
-
-            &.table{
-                display: table;
+            overflow: hidden;
+            font-size: 42.5px;
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
             }
         }
     }

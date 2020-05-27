@@ -29,10 +29,10 @@ export class PresentationRenderer{
         const progress = new Progress(slides.length);
         (async () => {
             try {
-                const { type, size, audioFilename, outputFilename } = options;
+                const { type, size, scale, audioFilename, outputFilename } = options;
                 const webpage = this.webpage = new WebPage();
                 progress.setStatus('starting');
-                await webpage.create(type, slides, size);
+                await webpage.create(type, slides, { size, scale });
                 await sleep(500);
                 await this.prepareFolder(this.tmpDirPath);
                 await this.rimraf(path.join(this.tmpDirPath, '*'));

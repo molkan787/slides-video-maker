@@ -9,7 +9,8 @@ export function test1() {
             width: 1280,
             height: 720
         },
-        audioFilename: "C:\\Users\\Dahmane\\Documents\\randall_wahran.mp3"
+        scale: 3
+        // audioFilename: "C:\\Users\\Dahmane\\Documents\\randall_wahran.mp3"
     }).wait().then(status => {
         console.log('Finished with status:', status);
     })
@@ -18,12 +19,43 @@ export function test1() {
 const test_data_classic = [
     {
         content: [
-            'Small text size',
-            'Some bigger text is here!',
-        ].join('\n'),
-        animation: 'fade',
-        duration: 1000,
+            {
+                rect: {
+                    x: 50, y: 50,
+                    width: 300,
+                    height: 50
+                },
+                content: {
+                    type: 'text',
+                    text: 'Thats and escaped',
+                    style: {
+                        'color': 'white',
+                        'text-align': 'center',
+                        'text-decoration': 'underline'
+                    }
+                }
+            },
+            {
+                rect: {
+                    x: 200, y: 90,
+                    width: 100,
+                    height: 180
+                },
+                content: {
+                    type: 'image',
+                    src: 'file:///D:\\\\Projects\\\\Electron\\\\slides-video-maker\\\\static\\\\images\\\\p2.png'
+                }
+            }
+        ],
+        background: {
+            type: 'color',
+            color: '#5099ff'
+        },
+        animation: 'zoom',
+        template: 'template-2',
+        duration: 4000,
     }, {
+        rawContent: true,
         content: [
             'Thats the second slide',
             'It is so beatiful, right?',
@@ -33,6 +65,7 @@ const test_data_classic = [
         duration: 4000,
     },
     {
+        rawContent: true,
         content: [
             'Thats the second slide',
             'It is so beatiful, right?',

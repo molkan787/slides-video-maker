@@ -1,7 +1,7 @@
 class CostraKinetic extends CostraFactory{
 
-    constructor(element){
-        super(element);
+    constructor(element, options){
+        super(element, options);
         this.namesapce = 'kinetic';
         this.templates = {
             'template-1': KineticTemplate1,

@@ -1,8 +1,8 @@
 const ANIMATION_DURATION = 1000;
 class Costra{
 
-    constructor(type, element){
-        this.factory = this.createFactory(type, element);
+    constructor(type, element, options){
+        this.factory = this.createFactory(type, element, options);
         this.element = element;
         this.element.classList.add('costra');
         this.animation1 = null;
@@ -17,7 +17,7 @@ class Costra{
     setSlides(slide1, slide2){
         const skipFirst = !slide1;
         this.element.innerHTML = '';
-        this.animation2 = this.createSlide(slide2, false, skipFirst ? 500 : 1400);
+        this.animation2 = this.createSlide(slide2, false, skipFirst ? 0 : 1400);
         this.animation1 = skipFirst ? anime({duration: 0}) : this.createSlide(slide1, !skipFirst);
         const totalDuration = Math.max(this.animation1.duration, this.animation2.duration);
         const factor = totalDuration / ANIMATION_DURATION;
@@ -30,11 +30,11 @@ class Costra{
 
     // ==================================================
 
-    createFactory(type, element){
+    createFactory(type, element, options){
         if(type == 'classic'){
-            return new CostraClassic(element);
+            return new CostraClassic(element, options);
         }else if(type == 'kinetic'){
-            return new CostraKinetic(element);
+            return new CostraKinetic(element, options);
         }else{
             throw new Error(`invalid factory type "${type}"`);
         }

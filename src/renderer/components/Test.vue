@@ -1,14 +1,16 @@
 <template>
     <div class="root">
-        <CLassicSlideEditor :items="items"/>
+        <KineticSlideEditor />
     </div>
 </template>
 
 <script>
 import CLassicSlideEditor from './presentation-editor/ClassicSlideEditor';
+import KineticSlideEditor from './presentation-editor/KineticSlideEditor';
 export default {
     components: {
-        CLassicSlideEditor
+        CLassicSlideEditor,
+        KineticSlideEditor
     },
     data:() => ({
         items: [
@@ -17,6 +19,15 @@ export default {
                     x: 0, y: 0,
                     width: 100,
                     height: 150
+                },
+                content: {
+                    type: 'text',
+                    text: 'New Header Text',
+                    style: {
+                        'font-size': '30px',
+                        'color': 'skyblue',
+                        'text-align': 'center'
+                    }
                 }
             },
             {
@@ -24,6 +35,10 @@ export default {
                     x: 250, y: 70,
                     width: 100,
                     height: 60
+                },
+                content: {
+                    type: 'image',
+                    src: __static + '\\images\\p2.png' 
                 }
             }
         ]

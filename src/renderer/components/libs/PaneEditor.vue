@@ -127,6 +127,9 @@ export default {
     mounted(){
         this.setCurrentItem(this.item);
         this.$refs.moveable.$el.addEventListener('dblclick', e => this.moveableDoubleClicked(e));
+        window.addEventListener('resize', () => {
+            this.$refs.moveable.updateTarget();
+        })
     }
 }
 </script>

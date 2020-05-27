@@ -53,8 +53,8 @@ function createWindow () {
 }
 
 app.on('ready', () => {
-  // test1()
-  // return
+  test1()
+  return
   createWindow()
   rendererDelegate = new RendererDelegate();
 })

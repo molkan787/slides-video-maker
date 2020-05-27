@@ -11,8 +11,9 @@ export class WebPage{
         this.slides = null;
     }
 
-    async create(type, slides, size){
+    async create(type, slides, options){
         this.slides = slides;
+        const { size } = options;
         const { width, height } = size;
         const win = this.window = new BrowserWindow({
             width,
@@ -27,7 +28,8 @@ export class WebPage{
         win.loadFile(path.join(__static, 'webpage', 'index.html'));
         await this.didFinishLoad(win);
         await sleep(100);
-        await this.exec(`setup('${type}')`);
+        const optionsJSON = JSON.stringify(options);
+        await this.exec(`setup('${type}', '${optionsJSON}')`);
         await sleep(50);
     }
 

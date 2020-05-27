@@ -1,9 +1,11 @@
 class CostraFactory{
 
-    constructor(element){
+    constructor(element, options){
         this.namesapce = '';
         this.element = element;
         this.idPointer = 1;
+        const { scale } = options;
+        this.scale = scale || 1;
     }
 
     genId(){

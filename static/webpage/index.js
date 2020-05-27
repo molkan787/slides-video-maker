@@ -1,8 +1,9 @@
 let costra;
 
-function setup(type){
+function setup(type, optionsJSON){
+    const options = JSON.parse(optionsJSON);
     const element = document.getElementById('costra');
-    costra = new Costra(type, element);
+    costra = new Costra(type, element, options);
 }
 
 function setSlides(slide1, slide2){
