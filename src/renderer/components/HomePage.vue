@@ -24,15 +24,18 @@ export default{
         slides: [
             {
                 content: 'New Slide',
-                animation: 'fade'
+                animation: 'fade',
+                duration: 5000,
             },
             {
                 content: 'And thats the second slide\nNow go away!',
-                animation: 'fade'
+                animation: 'fade',
+                duration: 5000,
             },
             {
                 content: "Well, Thats the end, Don't worry will come back! Bye for now",
-                animation: 'slide'
+                animation: 'slide',
+                duration: 5000,
             }
         ]
     }),

@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <HomePage />
-    <PublishDialog />
+    <!-- <HomePage />
+    <PublishDialog /> -->
+    <Test />
     <Dialog />
   </v-app>
 </template>
@@ -9,7 +10,8 @@
 <script>
 import HomePage from './components/HomePage';
 import Dialog from './components/Dialog';
-import PublishDialog from './components/PublishDialog'
+import PublishDialog from './components/PublishDialog';
+import Test from './components/Test';
 
 export default {
   name: 'App',
@@ -17,7 +19,8 @@ export default {
   components: {
     HomePage,
     Dialog,
-    PublishDialog
+    PublishDialog,
+    Test
   },
 
   data: () => ({

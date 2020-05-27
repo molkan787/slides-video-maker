@@ -8,7 +8,8 @@ export function test1() {
         size: {
             width: 1280,
             height: 720
-        }
+        },
+        audioFilename: "C:\\Users\\Dahmane\\Documents\\randall_wahran.mp3"
     }).wait().then(status => {
         console.log('Finished with status:', status);
     })

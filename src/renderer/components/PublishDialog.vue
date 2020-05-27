@@ -60,10 +60,11 @@ export default {
             const progress = rendererService.render({
                 slides: this.slides,
                 options: {
+                    type: 'classic',
                     outputFilename: this.outputFilename,
                     size: {
-                        width: 1200,
-                        height: 750
+                        width: 1280,
+                        height: 720
                     }
                 }
             });

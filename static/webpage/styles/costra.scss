@@ -3,7 +3,7 @@ html, body{
 }
 .costra{
     display: block;
-    color: white;
+    color: black;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -16,6 +16,10 @@ html, body{
         top: 0;
         left: 0;
         box-sizing: border-box;
+
+        &.block{
+            display: block;
+        }
 
         .background{
             width: 100%;
@@ -32,12 +36,37 @@ html, body{
             white-space: pre-wrap;
             font-size: 36px;
             font-family: Arial, Helvetica, sans-serif;
-            line-height: 0.35;
         }
     }
 
     h1, h2, h3, h4, h5, h6{
         margin: 0.5rem 0;
+    }
+
+    .classic{
+        .image{
+            &.stretch{
+                width: 100%;
+                height: 100%;
+            }
+            &.zoom{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .layer{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            &.table{
+                display: table;
+            }
+        }
     }
 
 }

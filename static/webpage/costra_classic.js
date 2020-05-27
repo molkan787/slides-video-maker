@@ -12,14 +12,22 @@ class CostraClassic extends CostraFactory{
 
     createElement(data){
         const slideDiv = document.createElement('div');
-        const contentSection = document.createElement('section');
-        slideDiv.className = 'slide';
-        slideDiv.appendChild(contentSection);
+        slideDiv.className = `slide ${this.namesapce}`;
         const id = this.genId();
         slideDiv.id = id;
-        contentSection.innerHTML = data.content;
+        slideDiv.innerHTML = this.generateContentHTML(slideDiv, data);
         this.element.appendChild(slideDiv);
         return id;
+    }
+
+    generateContentHTML(slideElement, data){
+        const { content, customContent } = data;
+        if(customContent){
+            slideElement.classList.add('block');
+            return content;
+        }else{
+            return `<section>${content}</section>`;
+        }
     }
 
     createAnimation(elId, slide, out){

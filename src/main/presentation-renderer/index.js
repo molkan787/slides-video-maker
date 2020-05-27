@@ -8,8 +8,10 @@ const rimraf = require('rimraf');
 const { WebPage } = require('./webpage');
 const { sleep } = require('./utils');
 
+const isMacOS = process.platform == 'darwin';
+
 const appDataDir = app.getPath('userData');
-const ffmpegPath = path.join(appDataDir, 'ffmpeg.exe');
+const ffmpegPath = path.join(appDataDir, isMacOS ? 'ffmpeg' : 'ffmpeg.exe');
 
 ffmpegCommand.setFfmpegPath(ffmpegPath);
 console.log('app data dir:', appDataDir);
@@ -20,14 +22,14 @@ export class PresentationRenderer{
         this.tmpDirPath = path.join(app.getPath('temp'), 'SVM');
         FileExtractor.setBaseFolderPath(appDataDir);
         console.log('Temp dir:', this.tmpDirPath);
-        this.fps = 30;
+        this.fps = 60;
     }
 
     render(slides, options){
         const progress = new Progress(slides.length);
         (async () => {
             try {
-                const { type, size, outputFilename } = options;
+                const { type, size, audioFilename, outputFilename } = options;
                 const webpage = this.webpage = new WebPage();
                 progress.setStatus('starting');
                 await webpage.create(type, slides, size);
@@ -37,10 +39,7 @@ export class PresentationRenderer{
                 progress.setStatus('rendering_transitions');
                 const inputs = await this.buildTimeline(progress, type, slides);
                 console.log('Timeline inputs:', inputs);
-                progress.setStatus('rendering_video');
-                await this.prepareFfmpeg();
-                await sleep(100);
-                await this.renderVideo(inputs, outputFilename);
+                await this.buildOutput(progress, inputs, audioFilename, outputFilename);
                 progress.finish('completed');
                 webpage.destroy();
                 this.rimraf(path.join(this.tmpDirPath, '*'))
@@ -108,6 +107,37 @@ export class PresentationRenderer{
         return inputs;
     }
 
+    async buildOutput(progress, inputs, audioFilename, outputFilename){
+        const videoOutFile = audioFilename ? path.join(this.tmpDirPath, 'tmp_video.mp4') : outputFilename;
+        progress.setStatus('rendering_video');
+        await this.prepareFfmpeg();
+        await sleep(100);
+        await this.renderVideo(inputs, videoOutFile);
+        if(audioFilename){
+            progress.setStatus('adding_audio');
+            await this.mergeVideoAndAudio(videoOutFile, audioFilename, outputFilename);
+        }
+    }
+
+    mergeVideoAndAudio(videoFilename, audioFilename, outputFilename){
+        return new Promise((resolve, reject) => {
+            const ffmpeg = new ffmpegCommand();
+            ffmpeg.input(videoFilename)
+            .input(audioFilename)
+            .outputOptions([
+                '-c:v copy',
+                '-c:a aac',
+                '-shortest'
+            ])
+            .output(outputFilename)
+            .on('error', reject).on('end', resolve)
+            .on('start', function(commandLine) {
+                console.log('Spawned Ffmpeg with command: ' + commandLine);
+            })
+            .run();
+        });
+    }
+
     renderVideo(inputs, outputFilename){
         return new Promise((resolve, reject) => {
             const ffmpeg = new ffmpegCommand();
@@ -121,7 +151,7 @@ export class PresentationRenderer{
             .outputOptions([
                 '-crf 1',
                 '-pix_fmt yuv420p',
-                '-r ' + this.fps
+                '-r ' + this.fps,
             ])
             .on('error', reject).on('end', resolve)
             .on('start', function(commandLine) {
@@ -164,8 +194,8 @@ export class PresentationRenderer{
 
     prepareFfmpeg(){
         return FileExtractor.extractIfNotExist([
-            'ffmpeg.exe',
-            'ffprobe.exe'
+            isMacOS ? 'ffmpeg' : 'ffmpeg.exe',
+            isMacOS ? 'ffprobe' : 'ffprobe.exe',
         ])
     }
 

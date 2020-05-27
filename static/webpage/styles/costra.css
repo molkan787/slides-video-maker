@@ -1,6 +1,5 @@
 html, body {
   overflow: hidden;
-  background-color: white;
 }
 
 .costra {
@@ -22,6 +21,10 @@ html, body {
           box-sizing: border-box;
 }
 
+.costra .slide.block {
+  display: block;
+}
+
 .costra .slide .background {
   width: 100%;
   height: 100%;
@@ -41,5 +44,29 @@ html, body {
 
 .costra h1, .costra h2, .costra h3, .costra h4, .costra h5, .costra h6 {
   margin: 0.5rem 0;
+}
+
+.costra .classic .image.stretch {
+  width: 100%;
+  height: 100%;
+}
+
+.costra .classic .image.zoom {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.costra .classic .layer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.costra .classic .layer.table {
+  display: table;
 }
 /*# sourceMappingURL=costra.css.map */
