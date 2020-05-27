@@ -53,6 +53,7 @@ export default {
             if(item){
                 this.showControls();
                 this.setMoveableRect(item.rect);
+                this.disableMoveableTemporaly();
             }else{
                 this.hideControls();
             }
@@ -97,6 +98,23 @@ export default {
             this.currentItem.rect.width = width;
             this.currentItem.rect.height = height;
         },
+        moveableDoubleClicked(e){
+            this.$emit('dblclick', e);
+        },
+        disableMoveableTemporaly(){
+            this.disableMoveable();
+            setTimeout(() => {
+                if(!this.currentItem.editing){
+                    this.enableMoveable()
+                }
+            }, 200);
+        },
+        disableMoveable(){
+            this.$refs.moveable.$el.style.pointerEvents = 'none';
+        },
+        enableMoveable(){
+            this.$refs.moveable.$el.style.pointerEvents = 'unset';
+        },
         hideControls(){
             document.querySelector('.moveable-control-box').style.display = 'none';
             this.$refs.moveable.$el.style.display = 'none';
@@ -108,6 +126,7 @@ export default {
     },
     mounted(){
         this.setCurrentItem(this.item);
+        this.$refs.moveable.$el.addEventListener('dblclick', e => this.moveableDoubleClicked(e));
     }
 }
 </script>
@@ -122,6 +141,5 @@ div{
 .moveable{
     position: relative;
     z-index: 1;
-
 }
 </style>
