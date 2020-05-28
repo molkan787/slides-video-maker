@@ -23,6 +23,7 @@ html, body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  font-family: Roboto, sans-serif;
 }
 
 .costra .slide.block {
@@ -39,7 +40,8 @@ html, body {
 
 .costra .slide section {
   display: table-cell;
-  text-align: center;
+  padding-left: 100px;
+  text-align: left;
   vertical-align: middle;
   white-space: pre-wrap;
   font-size: 36px;
@@ -53,7 +55,9 @@ html, body {
 .costra .classic .item {
   position: absolute;
   overflow: hidden;
-  font-size: 42.5px;
+  font-size: 26.5px;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
 }
 
 .costra .classic .item img {

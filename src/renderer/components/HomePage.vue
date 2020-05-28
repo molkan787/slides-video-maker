@@ -9,7 +9,7 @@
             </v-btn>
         </v-app-bar>
         <div class="editorParent">
-            <Editor :slides="slides" />
+            <Editor :slides="slides_classic" type="classic" :template="template" />
         </div>
     </div>
 </template>
@@ -21,28 +21,94 @@ export default{
         Editor
     },
     data:() => ({
-        slides: [
+        template: {
+            templates: [
+                'template-1',
+                'template-2'
+            ],
+            createNewSlide(positionIndex){
+                return {
+                    content: [
+                        // 'Title',
+                        // 'Some bigger text!',
+                        // 'The end'
+                    ],
+                    background: {
+                        type: 'color',
+                        color: '#1ED760'
+                    },
+                    template: this.templates[positionIndex % this.templates.length],
+                    animation: 'fade',
+                    duration: 4000,
+                }
+            }
+        },
+        slides_classic: [
             {
-                content: 'New Slide',
-                animation: 'fade',
-                duration: 5000,
+                content: [
+                    {
+                        rect: {
+                            x: 50, y: 50,
+                            width: 300,
+                            height: 50
+                        },
+                        content: {
+                            type: 'text',
+                            text: 'Thats and escaped',
+                            style: {
+                                'color': 'white',
+                                'text-align': 'center',
+                                'text-decoration': 'underline'
+                            }
+                        }
+                    },
+                    {
+                        rect: {
+                            x: 200, y: 90,
+                            width: 100,
+                            height: 180
+                        },
+                        content: {
+                            type: 'image',
+                            src: 'file:///D:\\\\Projects\\\\Electron\\\\slides-video-maker\\\\static\\\\images\\\\p2.png'
+                        }
+                    }
+                ],
+                background: {
+                    type: 'image',
+                    // color: '#5099ff'
+                    src: 'file:///C:\\\\Users\\\\Dahmane\\\\Pictures\\\\magic_bg.jpg'
+                },
+                animation: 'zoom',
+                template: 'template-2',
+                duration: 4000,
+            }, {
+                content: [],
+                background: {
+                    type: 'color',
+                    color: '#1ED760'
+                },
+                animation: 'zoom',
+                duration: 4000,
             },
+        ],
+        slides_kinetic: [
             {
-                content: 'And thats the second slide\nNow go away!',
-                animation: 'fade',
-                duration: 5000,
-            },
-            {
-                content: "Well, Thats the end, Don't worry will come back! Bye for now",
+                content: [
+                    'SOME TITLE',
+                    'It is so beatiful, right?',
+                    'JUST ANOTHER!'
+                ],
+                template: 'template-1',
                 animation: 'slide',
-                duration: 5000,
+                duration: 2000,
             }
         ]
     }),
     methods: {
         publish(){
-            if(this.slides.length > 1){
-                window.publishPresentation(this.slides);
+            if(this.slides_classic.length > 1){
+                window.publishPresentation(this.slides_classic, 'classic');
             }else{
                 alert('Please create at least 2 slides before publishing');
             }

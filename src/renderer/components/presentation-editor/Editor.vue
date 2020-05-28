@@ -3,45 +3,107 @@
         <div class="leftSide">
             <v-card elevation="1" class="pa-2">
                 <EditHeader :item="currentSlide" :canDelete="slides.length > 1"
-                    @deleteClick="deleteCurrentSlide"/>
+                    @deleteClick="deleteCurrentSlide" @duplicateClick="duplicateCurrentSlide"
+                    @addTextClick="addTextClick" @addImageClick="addImageClick" :type="type"/>
             </v-card>
-            <v-card class="slideEditCard pa-2">
-                <SlideEdit :item="currentSlide" />
+            <v-card class="slideEditCard">
+                <div class="slideEditorWrapper">
+                    <ClassicSlideEditor v-if="type == 'classic'" ref="classicEditor" :data="currentSlide" />
+                    <KineticSlide v-else-if="type == 'kinetic'" :data="currentSlide" enableEditing/>
+                </div>
             </v-card>
         </div>
         <div class="rightSide">
             <v-card style="height: 100%">
-                <SlidesList :items="slides" v-model="currentSlide" />
+                <SlidesList :items="slides" v-model="currentSlide" :template="template" :type="type" />
             </v-card>
         </div>
     </v-card>
 </template>
 
 <script>
+import Editor from '../../editor';
 import EditHeader from './EditHeader';
 import SlidesList from './SlidesList';
-import SlideEdit from './SlideEdit';
+import KineticSlide from './KineticSlide';
+import ClassicSlideEditor from './ClassicSlideEditor';
+import EditControls from './EditControls';
 export default {
     components: {
         EditHeader,
         SlidesList,
-        SlideEdit
+        KineticSlide,
+        ClassicSlideEditor,
+        EditControls
     },
     props: {
+        type: {
+            type: String,
+            default: 'classic'
+        },
+        template: {
+            type: Object,
+            required: true
+        },
         slides: {
             type: Array,
             required: true,
         }
     },
     data: () => ({
-        currentSlide: {},
+        currentSlide: { content: [] },
     }),
     methods: {
+        addTextClick(){
+            const newItem = {
+                        rect: {
+                            x: 300, y: 200,
+                            width: 200,
+                            height: 38
+                        },
+                        content: {
+                            type: 'text',
+                            text: 'New text',
+                            style: {
+                                'color': 'white',
+                                'text-align': 'center',
+                            }
+                        }
+                    };
+            this.currentSlide.content.push(newItem)
+            this.$refs.classicEditor.setCurrentItem(newItem)
+        },
+        async addImageClick(){
+            const image = await Editor.promptImage();
+            if(image == null) return;
+            const { filename, size } = image;
+            const rect = Editor.fitBoxInCanvas({
+                width: 800,
+                height: 450
+            }, size, 800 / 1280);
+            const newItem = {
+                rect,
+                content: {
+                    type: 'image',
+                    src: `file:///${filename}`
+                }
+            };
+            this.currentSlide.content.push(newItem)
+            this.$refs.classicEditor.setCurrentItem(newItem)
+        },
         deleteCurrentSlide(){
             const index = this.slides.indexOf(this.currentSlide);
             if(index >= 0){
                 this.slides.splice(index, 1);
                 this.selectNearestItem(index);
+            }
+        },
+        duplicateCurrentSlide(){
+            const index = this.slides.indexOf(this.currentSlide);
+            if(index >= 0){
+                const cloned = JSON.parse(JSON.stringify(this.currentSlide));
+                this.slides.splice(index + 1, 0, cloned);
+                this.currentSlide = cloned;
             }
         },
         selectNearestItem(currentIndex){
@@ -82,5 +144,15 @@ $rightWidth: 250px;
 .slideEditCard{
     margin-top: 10px;
     height: calc(100% - 66px);
+    overflow: hidden;
+}
+.slideEditorWrapper{
+    position: relative;
+    width: 800px;
+    height: 450px;
+    margin: auto;
+    top: calc((100% - 450px) / 2);
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 </style>

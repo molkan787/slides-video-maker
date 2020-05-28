@@ -1,36 +1,41 @@
 <template>
     <div class="classic-editor">
-        <PaneEditor ref="editor" :item="currentItem" @dblclick="itemDoubleClicked(currentItem, $event)" />
-        <div class="items-container" @click="itemsContainerClick">
-            <div v-for="(item, index) in items" :key="index" class="item" ref="items"
-                :style="rectToStyle(item.rect)" @click="setCurrentItem(item)"
-                @dblclick="itemDoubleClicked(item, $event)"
-                >
-                <template v-if="item.content.type == 'text'">
-                    <textarea :style="item.content.style" v-model="item.content.text"
-                    @blur="item.editing = false"
-                    :disabled="!item.editing" autofocus
-                    ></textarea>
-                    <!-- <span :style="item.content.style">{{ item.content.text }}</span> -->
-                </template>
-                <template v-else-if="item.content.type == 'image'">
-                    <img :src="item.content.src"/>
-                </template>
-            </div>
-        </div>
+        <PaneEditor ref="editor" :item="currentItem"
+            @dblclick="itemDoubleClicked(currentItem, $event)" />
+        <ClassicSlide ref="classicSLide" :data="data"
+            @itemsContainerClick="itemsContainerClick"
+            @itemClick="setCurrentItem"
+            @itemDoubleClick="itemDoubleClicked" />
     </div>
 </template>
 
 <script>
 import PaneEditor from '../libs/PaneEditor';
+import ClassicSlide from './ClassicSlide';
 export default {
     components: {
-        PaneEditor
+        PaneEditor,
+        ClassicSlide
     },
     props: {
-        items: {
-            type: Array,
-            required: true,
+        value: null,
+        data: {
+            type: Object,
+            required: true
+        }
+    },
+    watch: {
+        data: {
+            deep: false,
+            handler(){
+                this.setCurrentItem(null);
+            }
+        }
+    },
+    computed: {
+        keepRatio(){
+            const it = this.currentItem;
+            return (it && it.content && it.content.type) == 'image';
         }
     },
     data:() => ({
@@ -39,6 +44,7 @@ export default {
     methods: {
         setCurrentItem(item){
             this.currentItem = item;
+            this.$emit('input', item);
         },
         rectToStyle(rect){
             const { x, y, width, height } = rect;
@@ -49,20 +55,18 @@ export default {
                 this.setCurrentItem(null);
             }
         },
-        itemDoubleClicked(item, event){
+        itemDoubleClicked(item){
             if(item.content.type !== 'text') return;
             this.$refs.editor.disableMoveable();
-            const index = this.items.indexOf(item);
-            const el = this.$refs.items[index].children[0];
+            const index = this.data.content.indexOf(item);
+            const slide = this.$refs.classicSLide;
+            const el = slide.$refs.items[index].children[0];
             this.$set(item, 'editing', true);
             setTimeout(() => {
                 el.focus();
                 el.click();
             }, 100)
         }
-    },
-    mounted(){
-        console.log(this)
     }
 }
 </script>
@@ -71,35 +75,8 @@ export default {
 .classic-editor{
     width: 100%;
     height: 100%;
-    border: 1px solid #888;
-}
-.items-container{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-.item{
-    position: absolute;
-    overflow: hidden;
-    
-    &[contenteditable=true]{
-        cursor: text;
-    }
-
-    img{
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-
-    textarea{
-        display: block;
-        width: 100%;
-        height: 100%;
-        resize: none;
-        outline: none;
-        overflow: hidden;
-    }
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 </style>

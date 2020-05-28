@@ -1,16 +1,16 @@
 <template>
     <div class="root">
-        <KineticSlideEditor />
+        <KineticSlide />
     </div>
 </template>
 
 <script>
 import CLassicSlideEditor from './presentation-editor/ClassicSlideEditor';
-import KineticSlideEditor from './presentation-editor/KineticSlideEditor';
+import KineticSlide from './presentation-editor/KineticSlide';
 export default {
     components: {
         CLassicSlideEditor,
-        KineticSlideEditor
+        KineticSlide
     },
     data:() => ({
         items: [

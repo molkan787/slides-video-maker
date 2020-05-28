@@ -4,6 +4,7 @@
             ref="moveable"
             class="moveable"
             v-bind="moveable"
+            :keepRatio="keepRatio"
             @drag="handleDrag"
             @resize="handleResize">
             <span style="opacity: 0">target</span>
@@ -22,16 +23,18 @@ export default {
         item: {
             type: Object,
             default: null
+        },
+        keepRatio: {
+            type: Boolean,
+            default: false,
         }
     },
     data:() => ({
         moveable: {
-            // container: null,
             draggable: true,
             throttleDrag: 0,
             resizable: true,
             throttleResize: 1,
-            keepRatio: false,
         },
         currentItem: {
             rect: {

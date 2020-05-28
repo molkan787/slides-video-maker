@@ -25,10 +25,8 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 
 function createWindow () {
   mainWindow = new BrowserWindow({
-    'min-height': 620,
-    'min-width': 1000,
-    height: 620,
-    width: 1000,
+    height: 650,
+    width: 1120,
     // show: false,
     useContentSize: true,
     webPreferences: {
@@ -38,7 +36,7 @@ function createWindow () {
   })
 
   // mainWindow.webContents.on('did-finish-load', () => mainWindow.show())
-
+  mainWindow.setMinimumSize(1120, 650);
   mainWindow.setMenu(null)
   mainWindow.maximize()
   mainWindow.loadURL(winURL)
@@ -53,8 +51,8 @@ function createWindow () {
 }
 
 app.on('ready', () => {
-  test1()
-  return
+  // test1()
+  // return
   createWindow()
   rendererDelegate = new RendererDelegate();
 })

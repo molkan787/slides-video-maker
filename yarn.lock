@@ -103,6 +103,11 @@
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.2.45.tgz#88d3d83954b7e9b88a9691567ae6c8b922cbab53"
   integrity sha512-3ReoMrZh2OJR8loD7to2hheYWh6pD+ypv6EpuvnEvoR04fsShwpDfS2ZErM3k98REEk4XIqPzuctAztmhWm+Pw==
 
+"@mdi/js@^5.3.45":
+  version "5.3.45"
+  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-5.3.45.tgz#c6f523311bf77e339051e24aaa3eddabf565a027"
+  integrity sha512-r05JoeUhokSERwW6yYi3WcKCBePHHqBvIikOD0X/dWyaZb6gIRth5Lya7VVTItvGo1qlpp8LpMJKmE6o49+G+Q==
+
 "@moveable/matrix@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@moveable/matrix/-/matrix-0.3.1.tgz#b2a26ea91da4832f0791881975f8d535ea074bc1"
@@ -5482,6 +5487,13 @@ ignore@^3.3.5:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
   integrity sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
 
+image-size@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.8.3.tgz#f0b568857e034f29baffd37013587f2c0cad8b46"
+  integrity sha512-SMtq1AJ+aqHB45c3FsB4ERK0UCiA2d3H1uq8s+8T0Pf8A3W4teyBQyaFaktH6xvZqh+npwlKU7i4fJo0r7TYTg==
+  dependencies:
+    queue "6.0.1"
+
 import-lazy@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/import-lazy/-/import-lazy-2.1.0.tgz#05698e3d45c88e8d7e9d92cb0584e77f096f3e43"
@@ -8654,6 +8666,13 @@ querystringify@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.1.tgz#60e5a5fd64a7f8bfa4d2ab2ed6fdf4c85bad154e"
   integrity sha512-w7fLxIRCRT7U8Qu53jQnJyPkYZIaR4n5151KMfcJlO/A9397Wxb1amJvROTK6TOnp7PfoAmg/qXiNHI+08jRfA==
+
+queue@6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/queue/-/queue-6.0.1.tgz#abd5a5b0376912f070a25729e0b6a7d565683791"
+  integrity sha512-AJBQabRCCNr9ANq8v77RJEv73DPbn55cdTb+Giq4X0AVnNVZvMHlYp7XlQiN+1npCZj1DuSmaA2hYVUUDgxFDg==
+  dependencies:
+    inherits "~2.0.3"
 
 randomatic@^3.0.0:
   version "3.1.1"

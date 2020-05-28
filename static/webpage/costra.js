@@ -14,13 +14,14 @@ class Costra{
         this.animation2.seek(stage * this.animation2.duration);
     }
 
-    setSlides(slide1, slide2){
+    async setSlides(slide1, slide2){
         const skipFirst = !slide1;
         this.element.innerHTML = '';
         this.animation2 = this.createSlide(slide2, false, skipFirst ? 0 : 1400);
         this.animation1 = skipFirst ? anime({duration: 0}) : this.createSlide(slide1, !skipFirst);
         const totalDuration = Math.max(this.animation1.duration, this.animation2.duration);
         const factor = totalDuration / ANIMATION_DURATION;
+        await this.allImagesLoaded();
         return factor;
     }
 
@@ -38,6 +39,26 @@ class Costra{
         }else{
             throw new Error(`invalid factory type "${type}"`);
         }
+    }
+
+    allImagesLoaded(){
+        const imgs = document.querySelectorAll('img');
+        const promises = [];
+        for(let img of imgs){
+            promises.push(this.imageLoad(img));
+        }
+        for(let img of this.factory.imageElements){
+            promises.push(this.imageLoad(img));
+        }
+        console.log(promises);
+        return Promise.all(promises);
+    }
+
+    imageLoad(img){
+        return new Promise((resolve, reject) => {
+            img.addEventListener('load', resolve);
+            img.addEventListener('error', reject);
+        })
     }
 
 }

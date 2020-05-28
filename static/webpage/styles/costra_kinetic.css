@@ -7,7 +7,9 @@
 
 .costra .kinetic .block1 {
   text-align: left;
-  display: inline-block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .costra .kinetic .kc {
@@ -22,16 +24,27 @@
           transform-style: preserve-3d;
 }
 
+.costra .kinetic.template-1 .kc {
+  line-height: 0.65;
+  text-transform: uppercase;
+}
+
 .costra .kinetic.template-1 .kc-0 {
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
   color: #FBFF01;
+  font-size: 62px;
+}
+
+.costra .kinetic.template-1 .kc-1 {
+  font-size: 80px;
 }
 
 .costra .kinetic.template-1 .kc-2 {
   -webkit-transform-origin: 0 100%;
           transform-origin: 0 100%;
   color: #FBFF01;
+  font-size: 62px;
 }
 
 .costra .kinetic.template-1 .kc-3 {
@@ -52,16 +65,27 @@
           transform-style: preserve-3d;
 }
 
+.costra .kinetic.template-2 .kc {
+  line-height: 0.65;
+  text-transform: uppercase;
+}
+
 .costra .kinetic.template-2 .kc-0 {
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
   color: #00C2CE;
+  font-size: 62px;
+}
+
+.costra .kinetic.template-2 .kc-1 {
+  font-size: 80px;
 }
 
 .costra .kinetic.template-2 .kc-2 {
   -webkit-transform-origin: 0 100%;
           transform-origin: 0 100%;
   color: #00C2CE;
+  font-size: 62px;
 }
 
 .costra .kinetic.template-2 .kc-3 {

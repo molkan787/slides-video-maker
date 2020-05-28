@@ -34,6 +34,7 @@ export default {
         statusCode: '',
         progress: 0,
         slides: null,
+        type: '',
     }),
     computed: {
         statusText(){
@@ -60,7 +61,8 @@ export default {
             const progress = rendererService.render({
                 slides: this.slides,
                 options: {
-                    type: 'classic',
+                    type: this.type,
+                    scale: 1280 / 800,
                     outputFilename: this.outputFilename,
                     size: {
                         width: 1280,
@@ -94,24 +96,25 @@ export default {
             this.open = false;
         },
 
-        handleRequest(slides){
+        handleRequest(slides, type){
             this.slides = slides;
+            this.type = type;
             this.statusCode = '';
             this.progress = 0;
             this.working = false;
             this.open = true;
         },
 
-        start(slides){
+        start(slides, type){
             return new Promise(resolve => {
                 this.resolve = resolve;
-                this.handleRequest(slides);
+                this.handleRequest(slides, type);
             });
         }
     },
 
     created(){
-        window.publishPresentation = slides => this.start(slides);
+        window.publishPresentation = (slides, type) => this.start(slides, type);
         // setTimeout(() => this.open = true, 500)
     }
 }

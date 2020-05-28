@@ -20,6 +20,7 @@ html, body{
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
+        font-family: Roboto, sans-serif;
 
         &.block{
             display: block;
@@ -35,7 +36,8 @@ html, body{
         
         section{
             display: table-cell;
-            text-align: center;
+            padding-left: 100px;
+            text-align: left;
             vertical-align: middle;
             white-space: pre-wrap;
             font-size: 36px;
@@ -51,7 +53,8 @@ html, body{
         .item{
             position: absolute;
             overflow: hidden;
-            font-size: 42.5px;
+            font-size: 26.5px;
+            transform-origin: 0 0;
             img{
                 display: block;
                 width: 100%;

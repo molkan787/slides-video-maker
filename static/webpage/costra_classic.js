@@ -28,7 +28,10 @@ class CostraClassic extends CostraFactory{
         if(type == 'color'){
             slideElement.style.backgroundColor = color;
         }else if(type == 'image'){
-            slideElement.style.backgroundImage = `url(${src})`;
+            const _src = src.replace(/\\/g, '\\\\');
+            this.loadImage(_src).then(() => {
+                slideElement.style.backgroundImage = `url(${_src})`;
+            })
         }
     }
 
@@ -49,8 +52,11 @@ class CostraClassic extends CostraFactory{
     renderItemHTML(item){
         const { rect, content } = item;
         const { type, text, src, style } = content;
-        const styleString = this.rectToStyleString(rect) + this.styleObjectToString(style);
-        const contentHTML = type == 'text' ? this.escapeText(text) : `<img src="${src}"/>`;
+        const isText = type == 'text' ;
+        let styleString = this.rectToStyleString(rect) + this.styleObjectToString(style);
+        styleString += `zoom:${this.scale}`;
+        // if(isText) styleString += `transform:scale(${this.scale});`;
+        const contentHTML = isText ? this.escapeText(text) : `<img src="${src}"/>`;
         return `
             <div class="item" style="${styleString}">
                 ${contentHTML}
@@ -60,10 +66,10 @@ class CostraClassic extends CostraFactory{
 
     rectToStyleString(rect){
         let { x, y, width, height } = rect;
-        x = Math.round(x * this.scale);
-        y = Math.round(y * this.scale);
-        width = Math.round(width * this.scale);
-        height = Math.round(height * this.scale);
+        x = Math.round(x);
+        y = Math.round(y);
+        width = Math.round(width);
+        height = Math.round(height);
         return `left:${x}px;top:${y}px;width:${width}px;height:${height}px;`;
     }
 

@@ -180,6 +180,10 @@ export class PresentationRenderer{
     async recordFrames(outputDir, framesCount){
         await this.prepareFolder(outputDir);
         console.time('recordFrames');
+
+        // Resolve an issue with large image as background (Originally does not show on the first frame)
+        await this.webpage.capturePage();
+
         for(let i = 0; i < framesCount; i++){
             const stage = i / (framesCount - 1);
             const filename = path.join(outputDir, `frame${i}.png`);

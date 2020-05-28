@@ -5,7 +5,7 @@
 
     .block1{
         text-align: left;
-        display: inline-block;
+        width: fit-content;
     }
 
     .kc{
@@ -18,13 +18,22 @@
             transform-origin: 50% 100%;
             transform-style: preserve-3d;
         }
+        .kc{
+            line-height: 0.65;
+            text-transform: uppercase;
+        }
         .kc-0{
             transform-origin: 0 0;
             color: #FBFF01;
+            font-size: 62px;
+        }
+        .kc-1{
+            font-size: 80px;
         }
         .kc-2{
             transform-origin: 0 100%;
             color: #FBFF01;
+            font-size: 62px;
         }
         .kc-3{
             height: 0.3rem;
@@ -40,13 +49,22 @@
             transform-origin: 50% 100%;
             transform-style: preserve-3d;
         }
+        .kc{
+            line-height: 0.65;
+            text-transform: uppercase;
+        }
         .kc-0{
             transform-origin: 0 0;
             color: #00C2CE;
+            font-size: 62px;
+        }
+        .kc-1{
+            font-size: 80px;
         }
         .kc-2{
             transform-origin: 0 100%;
             color: #00C2CE;
+            font-size: 62px;
         }
         .kc-3{
             height: 0.3rem;

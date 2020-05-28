@@ -1,7 +1,7 @@
 <template>
     <div class="root">
         <SlideItem v-for="(item, index) in items" :key="index"
-            :item="item" :active="item == pvalue" @click="itemClick" />
+            :item="item" :active="item == pvalue" @click="itemClick" :type="type" />
         <div class="addnew" v-ripple @click="addnew">
             <v-icon large>mdi-plus</v-icon>
         </div>
@@ -15,6 +15,14 @@ export default {
         SlideItem
     },
     props: {
+        type: {
+            type: String,
+            required: true,
+        },
+        template: {
+            type: Object,
+            required: true,
+        },
         items: {
             type: Array,
             required: true,
@@ -35,10 +43,7 @@ export default {
             this.$emit('input', item);
         },
         addnew(){
-            const item = {
-                content: 'New Slide',
-                animation: 'fade',
-            };
+            const item = this.template.createNewSlide(this.items.length);
             this.items.push(item);
             this.itemClick(item);
         }

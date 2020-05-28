@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <!-- <HomePage />
-    <PublishDialog /> -->
-    <Test />
+    <HomePage />
+    <PublishDialog />
+    <!-- <Test /> -->
     <Dialog />
   </v-app>
 </template>
