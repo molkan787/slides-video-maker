@@ -25,7 +25,7 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 
 function createWindow () {
   mainWindow = new BrowserWindow({
-    height: 650,
+    height: 708,
     width: 1120,
     // show: false,
     useContentSize: true,
@@ -36,7 +36,7 @@ function createWindow () {
   })
 
   // mainWindow.webContents.on('did-finish-load', () => mainWindow.show())
-  mainWindow.setMinimumSize(1120, 650);
+  mainWindow.setMinimumSize(1120, 708);
   mainWindow.setMenu(null)
   mainWindow.maximize()
   mainWindow.loadURL(winURL)

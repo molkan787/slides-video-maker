@@ -1,26 +1,34 @@
 <template>
     <div class="homePage">
-        <v-app-bar dense color="blue" dark elevation="1">
+        <v-app-bar dense color="primary" dark elevation="1">
             <v-toolbar-title>Slides Video Maker</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn class="publishButton" light right @click="publish">
+            <v-btn class="publishButton" @click="publish" light right elevation="0" >
                 <v-icon>mdi-movie</v-icon>
                 Publish
             </v-btn>
         </v-app-bar>
         <div class="editorParent">
-            <Editor :slides="slides_classic" type="classic" :template="template" />
+
+            <!-- <Editor :slides="slides_classic" type="classic" :template="template" /> -->
+            <TimelineEditor v-if="step == 'timeline'" />
+
         </div>
     </div>
 </template>
 
 <script>
 import Editor from './presentation-editor/Editor';
+import TimelineEditor from './timeline-editor/TimelineEditor';
+import { mapState } from 'vuex';
 export default{
     components: {
-        Editor
+        Editor,
+        TimelineEditor
     },
+    computed: mapState(['project']),
     data:() => ({
+        step: 'timeline',
         template: {
             templates: [
                 'template-1',
@@ -58,7 +66,6 @@ export default{
                             style: {
                                 'color': 'white',
                                 'text-align': 'center',
-                                'text-decoration': 'underline'
                             }
                         }
                     },
@@ -75,15 +82,30 @@ export default{
                     }
                 ],
                 background: {
-                    type: 'image',
-                    // color: '#5099ff'
-                    src: 'file:///C:\\\\Users\\\\Dahmane\\\\Pictures\\\\magic_bg.jpg'
+                    type: 'color',
+                    color: '#1ED760'
                 },
                 animation: 'zoom',
                 template: 'template-2',
                 duration: 4000,
             }, {
-                content: [],
+                content: [
+                    {
+                        rect: {
+                            x: 300, y: 200,
+                            width: 200,
+                            height: 50
+                        },
+                        content: {
+                            type: 'text',
+                            text: 'New slide',
+                            style: {
+                                'color': 'white',
+                                'text-align': 'center',
+                            }
+                        }
+                    },
+                ],
                 background: {
                     type: 'color',
                     color: '#1ED760'
@@ -116,6 +138,24 @@ export default{
     },
 
     created(){
+        const slide = this.slides_classic[1];
+        for(let i = 0; i < 2; i++){
+            const clone = JSON.parse(JSON.stringify(slide));
+            clone.content[0].content.text = 'Slide ' + (i + 2);
+            this.slides_classic.push(clone);
+        }
+        const p = this.project;
+        p.type = 'classic';
+        p.template = this.template;
+        p.slides = this.slides_classic;
+
+        window.test = () => {
+            if(this.step == 'timeline'){
+                this.step = 'foo';
+            }else{
+                this.step = 'timeline';
+            }
+        }
     }
 }
 </script>

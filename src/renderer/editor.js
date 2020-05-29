@@ -1,5 +1,6 @@
 import { promisify } from 'util';
 import imageSize from 'image-size';
+import { Howl, Howler } from 'howler';
 import { promptFile } from './helpers';
 const sizeOf = promisify(imageSize);
 
@@ -43,4 +44,22 @@ export default class Editor{
         }
     }
 
+    static async promptAudio(){
+        let filename = await promptFile([{
+            name: 'Audio',
+            extensions: ['mp3', 'm4a', 'aac', 'oga', 'wav']
+        }]);
+        if(filename == null) return null;
+        const audio = new Howl({
+            src: [filename]
+        });
+        await new Promise((resolve, reject) => {
+            audio.once('load', resolve);
+            audio.once('loaderror', reject);
+        });
+        return {
+            filename,
+            audio,
+        }
+    }
 }

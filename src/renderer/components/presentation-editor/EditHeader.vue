@@ -5,7 +5,7 @@
             :disabled="type !== 'classic'" :style="{ opacity: type == 'classic' ? 1 : 0 }"/>
 
         <v-btn @click="$emit('deleteClick')" :disabled="!canDelete"
-            color="red" class="mybtn ml-2 white--text" small fab elevation="0" title="Delete current slide">
+            color="red lighten-2" class="mybtn ml-2 white--text" small fab elevation="0" title="Delete current slide">
             <v-icon>mdi-delete</v-icon>
         </v-btn>
         <v-btn @click="$emit('duplicateClick')"
