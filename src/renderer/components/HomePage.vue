@@ -1,17 +1,24 @@
 <template>
     <div class="homePage">
-        <v-app-bar dense color="primary" dark elevation="1">
+        <v-app-bar dense color="primary" dark elevation="1" class="header">
             <v-toolbar-title>Slides Video Maker</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn class="publishButton" @click="publish" light right elevation="0" >
-                <v-icon>mdi-movie</v-icon>
-                Publish
-            </v-btn>
+            <template v-if="steps.current !== 'dashboard'">
+                <v-btn class="publishButton" @click="back" light right elevation="0" >
+                    Back
+                </v-btn>
+                <v-btn class="publishButton" @click="next" light right elevation="0" >
+                    <v-icon v-if="step == 'timeline'">mdi-movie</v-icon>
+                    {{ step == 'timeline' ? 'Publish' : 'Next' }}
+                </v-btn>
+            </template>
         </v-app-bar>
         <div class="editorParent">
 
-            <!-- <Editor :slides="slides_classic" type="classic" :template="template" /> -->
-            <TimelineEditor v-if="step == 'timeline'" />
+            <Dashboard v-if="step == 'dashboard'" />
+            <Editor v-else-if="step == 'editor'"
+                :slides="project.slides" :type="project.type" :template="project.template" />
+            <TimelineEditor v-else-if="step == 'timeline'" />
 
         </div>
     </div>
@@ -20,149 +27,80 @@
 <script>
 import Editor from './presentation-editor/Editor';
 import TimelineEditor from './timeline-editor/TimelineEditor';
+import Dashboard from './dashboard/Dashboard';
 import { mapState } from 'vuex';
 export default{
     components: {
         Editor,
-        TimelineEditor
+        TimelineEditor,
+        Dashboard
     },
-    computed: mapState(['project']),
+    computed: {
+        ...mapState(['project', 'steps']),
+        step(){
+            return this.steps.current;
+        }
+    },
     data:() => ({
-        step: 'timeline',
-        template: {
-            templates: [
-                'template-1',
-                'template-2'
-            ],
-            createNewSlide(positionIndex){
-                return {
-                    content: [
-                        // 'Title',
-                        // 'Some bigger text!',
-                        // 'The end'
-                    ],
-                    background: {
-                        type: 'color',
-                        color: '#1ED760'
-                    },
-                    template: this.templates[positionIndex % this.templates.length],
-                    animation: 'fade',
-                    duration: 4000,
-                }
-            }
-        },
-        slides_classic: [
-            {
-                content: [
-                    {
-                        rect: {
-                            x: 50, y: 50,
-                            width: 300,
-                            height: 50
-                        },
-                        content: {
-                            type: 'text',
-                            text: 'Thats and escaped',
-                            style: {
-                                'color': 'white',
-                                'text-align': 'center',
-                            }
-                        }
-                    },
-                    {
-                        rect: {
-                            x: 200, y: 90,
-                            width: 100,
-                            height: 180
-                        },
-                        content: {
-                            type: 'image',
-                            src: 'file:///D:\\\\Projects\\\\Electron\\\\slides-video-maker\\\\static\\\\images\\\\p2.png'
-                        }
-                    }
-                ],
-                background: {
-                    type: 'color',
-                    color: '#1ED760'
-                },
-                animation: 'zoom',
-                template: 'template-2',
-                duration: 4000,
-            }, {
-                content: [
-                    {
-                        rect: {
-                            x: 300, y: 200,
-                            width: 200,
-                            height: 50
-                        },
-                        content: {
-                            type: 'text',
-                            text: 'New slide',
-                            style: {
-                                'color': 'white',
-                                'text-align': 'center',
-                            }
-                        }
-                    },
-                ],
-                background: {
-                    type: 'color',
-                    color: '#1ED760'
-                },
-                animation: 'zoom',
-                duration: 4000,
-            },
-        ],
-        slides_kinetic: [
-            {
-                content: [
-                    'SOME TITLE',
-                    'It is so beatiful, right?',
-                    'JUST ANOTHER!'
-                ],
-                template: 'template-1',
-                animation: 'slide',
-                duration: 2000,
-            }
-        ]
+
     }),
     methods: {
+        back(){
+            if(this.step == 'editor')
+                this.steps.current = 'dashboard';
+            else if(this.step == 'timeline'){
+                this.steps.current = 'editor';
+            }
+        },
+        next(){
+            if(this.step == 'editor')
+                this.steps.current = 'timeline';
+            else if(this.step == 'timeline'){
+                this.publish();
+            }
+        },
         publish(){
-            if(this.slides_classic.length > 1){
-                window.publishPresentation(this.slides_classic, 'classic');
+            const slides = this.project.slides.filter(slide => slide.checked);
+            if(slides.length > 1){
+                const project = this.prepareProject();
+                window.publishPresentation(project.slides, project.options);
             }else{
-                alert('Please create at least 2 slides before publishing');
+                alert('Please use at least 2 slides before publishing');
+            }
+        },
+
+        prepareProject(){
+            const { slides, timeline, type, audioFilename } = this.project;
+            const duration = timeline.duration;
+            const _slides = slides.filter(slide => slide.checked);
+            for(let i = 0; i < _slides.length; i++){
+                const slide = _slides[i];
+                const nextSlide = _slides[i + 1];
+                const endtime = nextSlide ? nextSlide.starttime : duration;
+                const slideDuration = endtime - slide.starttime;
+                slide.duration = slideDuration;
+            }
+            return {
+                slides: _slides,
+                options: {
+                    type,
+                    duration,
+                    audioFilename
+                }
             }
         }
     },
-
-    created(){
-        const slide = this.slides_classic[1];
-        for(let i = 0; i < 2; i++){
-            const clone = JSON.parse(JSON.stringify(slide));
-            clone.content[0].content.text = 'Slide ' + (i + 2);
-            this.slides_classic.push(clone);
-        }
-        const p = this.project;
-        p.type = 'classic';
-        p.template = this.template;
-        p.slides = this.slides_classic;
-
-        window.test = () => {
-            if(this.step == 'timeline'){
-                this.step = 'foo';
-            }else{
-                this.step = 'timeline';
-            }
-        }
-    }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .homePage{
     height: 100%;
+}
+.header{
+    button{
+        margin-left: 10px;
+    }
 }
 .editorParent{
     padding: 3px;

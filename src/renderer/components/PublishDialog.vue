@@ -34,7 +34,7 @@ export default {
         statusCode: '',
         progress: 0,
         slides: null,
-        type: '',
+        options: null,
     }),
     computed: {
         statusText(){
@@ -61,7 +61,7 @@ export default {
             const progress = rendererService.render({
                 slides: this.slides,
                 options: {
-                    type: this.type,
+                    ...this.options,
                     scale: 1280 / 800,
                     outputFilename: this.outputFilename,
                     size: {
@@ -96,9 +96,9 @@ export default {
             this.open = false;
         },
 
-        handleRequest(slides, type){
+        handleRequest(slides, options){
             this.slides = slides;
-            this.type = type;
+            this.options = options;
             this.statusCode = '';
             this.progress = 0;
             this.working = false;

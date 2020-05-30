@@ -109,7 +109,6 @@ export default {
                 this.timeline.duration,
                 this.project.slides.length * 100);
             if(duration){
-                console.log('duration', duration);
                 this.currentTime = 0;
                 this.timeline.duration = duration;
             }

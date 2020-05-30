@@ -29,7 +29,7 @@ export class PresentationRenderer{
         const progress = new Progress(slides.length);
         (async () => {
             try {
-                const { type, size, scale, audioFilename, outputFilename } = options;
+                const { duration, type, size, scale, audioFilename, outputFilename } = options;
                 const webpage = this.webpage = new WebPage();
                 progress.setStatus('starting');
                 await webpage.create(type, slides, { size, scale });
@@ -39,7 +39,7 @@ export class PresentationRenderer{
                 progress.setStatus('rendering_transitions');
                 const inputs = await this.buildTimeline(progress, type, slides);
                 console.log('Timeline inputs:', inputs);
-                await this.buildOutput(progress, inputs, audioFilename, outputFilename);
+                await this.buildOutput(progress, inputs, audioFilename, outputFilename, duration / 1000);
                 progress.finish('completed');
                 webpage.destroy();
                 this.rimraf(path.join(this.tmpDirPath, '*'))
@@ -62,8 +62,9 @@ export class PresentationRenderer{
             if(progress.isFinished) break;
             const slide = slides[i];
             const transition = await this.renderTransition(slides, i);
-            const { outputDir, framesCount, durationFactor } = transition;
+            const { outputDir, framesCount, durationFactor, reduced } = transition;
             const tduration = durationFactor * 1000;
+            
             // Initial sequence
             if(!kinetic && i == 1){
                 const duration = slides[0].duration - (tduration / 2);
@@ -79,19 +80,21 @@ export class PresentationRenderer{
                 options: ['-r ' + this.fps]
             });
 
+            const isLastSlide = i == slides.length - 1;
             // Slide 
             const lastframe = `frame${framesCount - 1}.png`;
             const options = ['-loop 1'];
-            inputs.push({
+            if(!reduced || isLastSlide) inputs.push({
                 filename: path.join(outputDir, lastframe),
                 options: options
             });
             if(kinetic){
-                let duration = slide.duration - (tduration / 2);
-                if(i == slides.length - 1){
+                if(isLastSlide){
+                    let duration = slide.duration - (tduration / 2);
                     options.push(`-t ${duration / 1000}`);
                 }
                 if(i > 0){
+                    let duration = slides[i - 1].duration - (tduration / 2);
                     duration -= i == 1 ? previous_tduration : (previous_tduration / 2);
                     previous_options.push(`-t ${duration / 1000}`);
                 }
@@ -107,19 +110,19 @@ export class PresentationRenderer{
         return inputs;
     }
 
-    async buildOutput(progress, inputs, audioFilename, outputFilename){
+    async buildOutput(progress, inputs, audioFilename, outputFilename, duration){
         const videoOutFile = audioFilename ? path.join(this.tmpDirPath, 'tmp_video.mp4') : outputFilename;
         progress.setStatus('rendering_video');
         await this.prepareFfmpeg();
         await sleep(100);
-        await this.renderVideo(inputs, videoOutFile);
+        await this.renderVideo(inputs, videoOutFile, duration);
         if(audioFilename){
             progress.setStatus('adding_audio');
-            await this.mergeVideoAndAudio(videoOutFile, audioFilename, outputFilename);
+            await this.mergeVideoAndAudio(videoOutFile, audioFilename, outputFilename, duration);
         }
     }
 
-    mergeVideoAndAudio(videoFilename, audioFilename, outputFilename){
+    mergeVideoAndAudio(videoFilename, audioFilename, outputFilename, duration){
         return new Promise((resolve, reject) => {
             const ffmpeg = new ffmpegCommand();
             ffmpeg.input(videoFilename)
@@ -127,7 +130,7 @@ export class PresentationRenderer{
             .outputOptions([
                 '-c:v copy',
                 '-c:a aac',
-                '-shortest'
+                '-t ' + duration,
             ])
             .output(outputFilename)
             .on('error', reject).on('end', resolve)
@@ -138,7 +141,7 @@ export class PresentationRenderer{
         });
     }
 
-    renderVideo(inputs, outputFilename){
+    renderVideo(inputs, outputFilename, duration){
         return new Promise((resolve, reject) => {
             const ffmpeg = new ffmpegCommand();
 
@@ -152,6 +155,7 @@ export class PresentationRenderer{
                 '-crf 1',
                 '-pix_fmt yuv420p',
                 '-r ' + this.fps,
+                '-t ' + duration
             ])
             .on('error', reject).on('end', resolve)
             .on('start', function(commandLine) {
@@ -162,18 +166,29 @@ export class PresentationRenderer{
     }
     
     async renderTransition(slides, index){
+        let reduced = false;
         const slide1 = slides[index - 1];
         const slide2 = slides[index];
+        const duration1 = (slide1 && slide1.duration) || Infinity;
+        const duration2 = (slide2 && slide2.duration) || Infinity;
         const outputDir = path.join(this.tmpDirPath, `transition${index}`);
-        const durationFactor = await this.webpage.setSlides(slide1, slide2);
+        let durationFactor = await this.webpage.setSlides(slide1, slide2);
         console.log('durationFactor:', durationFactor);
+        const tduration = durationFactor * 1000;
+        if(duration1 < tduration || duration2 < tduration ){
+            const lowest = Math.min(duration1, duration2);
+            durationFactor = lowest / 1000;
+            reduced = true;
+            console.log('Adjusted durationFactor:', durationFactor);
+        }
         await sleep(200);
-        const framesCount = Math.ceil(durationFactor * this.fps);
+        const framesCount = Math.round(durationFactor * this.fps);
         await this.recordFrames(outputDir, framesCount);
         return {
             outputDir,
             framesCount,
-            durationFactor
+            durationFactor,
+            reduced
         }
     }
 
