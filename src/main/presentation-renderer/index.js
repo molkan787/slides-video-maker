@@ -211,11 +211,15 @@ export class PresentationRenderer{
         return framesCount;
     }
 
-    prepareFfmpeg(){
-        return FileExtractor.extractIfNotExist([
+    async prepareFfmpeg(){
+        const files = await FileExtractor.extractIfNotExist([
             isMacOS ? 'ffmpeg' : 'ffmpeg.exe',
             isMacOS ? 'ffprobe' : 'ffprobe.exe',
-        ])
+        ]);
+        for(let file of files){
+            fs.chmodSync(file, '755');
+        }
+        return files;
     }
 
     writeFile(filename, data){

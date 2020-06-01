@@ -20,10 +20,12 @@ export class WebPage{
             height,
             show: SHOW_WIN,
             useContentSize: true,
+            enableLargerThanScreen: true,
             webPreferences: {
                 offscreen: !SHOW_WIN,
             },
         });
+        win.setSize(width, height);
         // win.openDevTools();
         win.loadFile(path.join(__static, 'webpage', 'index.html'));
         await this.didFinishLoad(win);

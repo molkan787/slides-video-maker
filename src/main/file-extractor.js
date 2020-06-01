@@ -14,6 +14,7 @@ export default class FileExtractor {
     }
 
     static async extractIfNotExist(files){
+        const result = [];
         const baseDir = this.getBaseFolderPath();
         await this.prepareFolder(baseDir);
         for(let file of files){
@@ -22,7 +23,9 @@ export default class FileExtractor {
             if(!exist){
                 await this.extract(file, filename);
             }
+            result.push(filename);
         }
+        return result;
     }
 
     static prepareFolder(path) {
