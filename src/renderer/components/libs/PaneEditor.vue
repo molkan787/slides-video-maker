@@ -7,7 +7,7 @@
             :keepRatio="keepRatio"
             @drag="handleDrag"
             @resize="handleResize">
-            <span style="opacity: 0">target</span>
+            <span style="opacity: 0"></span>
         </Moveable>
     </div>
 </template>
@@ -52,7 +52,6 @@ export default {
     },
     methods: {
         setCurrentItem(item){
-            this.currentItem = item;
             if(item){
                 this.showControls();
                 this.setMoveableRect(item.rect);
@@ -60,16 +59,15 @@ export default {
             }else{
                 this.hideControls();
             }
+            this.currentItem = item;
         },
         setMoveableRect({x, y, width, height}){
             const moveable = this.$refs.moveable;
-            const elRect = moveable.$el.getClientRects()[0];
-            const rootRect = this.$refs.rootpanel.getClientRects()[0];
-            const deltaWidth = width - elRect.width;
-            const deltaHeight = height - elRect.height;
-            this.lockUpdates = true;
-            moveable.request("draggable", { x: x + rootRect.x, y: y + rootRect.y, isInstant: true });
-            moveable.request("resizable", { deltaWidth, deltaHeight, isInstant: true });
+            const mel = moveable.$el;
+            mel.style.transform = `matrix(1, 0, 0, 1, 0, 0) translate(${x}px, ${y}px)`;
+            mel.style.width = width + 'px';
+            mel.style.height = height + 'px';
+            moveable.updateRect();
         },
         extractPosition(event){
             const { transform, translate } = event;
@@ -114,9 +112,11 @@ export default {
         },
         disableMoveable(){
             this.$refs.moveable.$el.style.pointerEvents = 'none';
+            this.hideControlsDots();
         },
         enableMoveable(){
             this.$refs.moveable.$el.style.pointerEvents = 'unset';
+            this.showControlsDots();
         },
         hideControls(){
             document.querySelector('.moveable-control-box').style.display = 'none';
@@ -125,7 +125,16 @@ export default {
         showControls(){
             document.querySelector('.moveable-control-box').style.display = 'block';
             this.$refs.moveable.$el.style.display = 'block';
+            this.showControlsDots();
         },
+        hideControlsDots(){
+            const el = document.querySelector('.moveable-control-box');
+            el.classList.add('hide-dots');
+        },
+        showControlsDots(){
+            const el = document.querySelector('.moveable-control-box');
+            el.classList.remove('hide-dots');
+        }
     },
     mounted(){
         this.setCurrentItem(this.item);
@@ -143,9 +152,17 @@ div{
 }
 </style>
 
-<style>
+<style lang="scss">
 .moveable{
     position: relative;
     z-index: 1;
+}
+.rCSeieii1{
+    z-index: 1 !important;
+}
+.moveable-control-box.hide-dots{
+    .moveable-control{
+        opacity: 0 !important;
+    }
 }
 </style>

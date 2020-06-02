@@ -21,3 +21,37 @@ export function loadCSSFile(url){
     link.href = url;
     document.head.appendChild(link);
 }
+
+window.calcTextSize = calcTextSize;
+export function calcTextSize(text, style){
+    const el = prepareTextCalcElement();
+    let styleString = styleObjectToString(style);
+    styleString += 'width:fit-content;height:auto;visibility:hidden;line-height: normal;white-space: pre';
+    el.setAttribute('style', styleString);
+    // Append 'space' char if the text ends with a line-break, otherwise it will be ignored
+    if(text.charAt(text.length - 1) == '\n'){
+        text = text + ' ';
+    }
+    el.innerText = text;
+    const { width, height } = el.getClientRects()[0];
+    return { width, height };
+}
+
+let textSizeCalcElement = null;
+function prepareTextCalcElement(){
+    if(textSizeCalcElement) return textSizeCalcElement;
+    const id = 'helper_text_calc_el';
+    let el = document.createElement('div');
+    el.id = id;
+    document.body.appendChild(el);
+    textSizeCalcElement = el;
+    return el;
+}
+
+function styleObjectToString(style){
+    let result = '';
+    for(let prop in style){
+        result += `${prop}:${style[prop]};`;
+    }
+    return result;
+}

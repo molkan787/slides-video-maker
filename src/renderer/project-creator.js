@@ -10,8 +10,8 @@ export default class ProjectCreator{
                 {
                     rect: {
                         x: 300, y: 200,
-                        width: 200,
-                        height: 50
+                        width: 206,
+                        height: 38
                     },
                     content: {
                         type: 'text',
@@ -19,6 +19,8 @@ export default class ProjectCreator{
                         style: {
                             'color': 'white',
                             'text-align': 'center',
+                            'font-size': '26.25px',
+                            'font-family': '"Roboto", sans-serif',
                         }
                     }
                 },

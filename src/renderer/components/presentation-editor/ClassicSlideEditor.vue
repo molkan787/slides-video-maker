@@ -5,7 +5,8 @@
         <ClassicSlide ref="classicSLide" :data="data"
             @itemsContainerClick="itemsContainerClick"
             @itemClick="setCurrentItem"
-            @itemDoubleClick="itemDoubleClicked" />
+            @itemDoubleClick="itemDoubleClicked"
+            @itemTextChange="updateCurrentItemSize" />
     </div>
 </template>
 
@@ -30,6 +31,9 @@ export default {
             handler(){
                 this.setCurrentItem(null);
             }
+        },
+        currentItem(item, old_item){
+            this.previousItem = old_item;
         }
     },
     computed: {
@@ -40,8 +44,22 @@ export default {
     },
     data:() => ({
         currentItem: null,
+        previousItem: null,
     }),
     methods: {
+        updateCurrentItemSize(){
+            const { text, style } = this.currentItem.content;
+            const { width, height } = calcTextSize(text || ' ', style);
+            this.currentItem.rect.width = width;
+            this.currentItem.rect.height = height;
+            this.forceItemUpdate();
+        },
+        forceItemUpdate(){
+            const currentItem = this.currentItem;
+            this.currentItem = null;
+            this.$nextTick().then(() => this.currentItem = currentItem);
+        },
+
         setCurrentItem(item){
             this.currentItem = item;
             this.$emit('input', item);
@@ -66,6 +84,12 @@ export default {
                 el.focus();
                 el.click();
             }, 100)
+        },
+        deleteCurrentItem(){
+            const items = this.data.content
+            const index = items.indexOf(this.currentItem);
+            items.splice(index, 1);
+            this.setCurrentItem(null);
         }
     }
 }

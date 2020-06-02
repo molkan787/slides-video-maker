@@ -2,9 +2,9 @@
     <v-card class="editor-root" elevation="0">
         <div class="leftSide">
             <v-card elevation="1" class="pa-2">
-                <EditHeader :item="currentSlide" :canDelete="slides.length > 1"
-                    @deleteClick="deleteCurrentSlide" @duplicateClick="duplicateCurrentSlide"
-                    @addTextClick="addTextClick" @addImageClick="addImageClick" :type="type"/>
+                <EditHeader :slide="currentSlide"
+                    @addTextClick="addTextClick" @addImageClick="addImageClick"
+                    :classicEditor="$refs.classicEditor" :type="type"/>
             </v-card>
             <v-card class="slideEditCard">
                 <div class="slideEditorWrapper">
@@ -58,7 +58,7 @@ export default {
             const newItem = {
                         rect: {
                             x: 300, y: 200,
-                            width: 200,
+                            width: 206,
                             height: 38
                         },
                         content: {
@@ -67,11 +67,14 @@ export default {
                             style: {
                                 'color': 'white',
                                 'text-align': 'center',
+                                'font-size': '26.25px',
+                                'font-family': '"Roboto", sans-serif',
                             }
                         }
                     };
             this.currentSlide.content.push(newItem)
             this.$refs.classicEditor.setCurrentItem(newItem)
+            this.$refs.classicEditor.updateCurrentItemSize()
         },
         async addImageClick(){
             const image = await Editor.promptImage();
@@ -90,25 +93,6 @@ export default {
             };
             this.currentSlide.content.push(newItem)
             this.$refs.classicEditor.setCurrentItem(newItem)
-        },
-        deleteCurrentSlide(){
-            const index = this.slides.indexOf(this.currentSlide);
-            if(index >= 0){
-                this.slides.splice(index, 1);
-                this.selectNearestItem(index);
-            }
-        },
-        duplicateCurrentSlide(){
-            const index = this.slides.indexOf(this.currentSlide);
-            if(index >= 0){
-                const cloned = JSON.parse(JSON.stringify(this.currentSlide));
-                this.slides.splice(index + 1, 0, cloned);
-                this.currentSlide = cloned;
-            }
-        },
-        selectNearestItem(currentIndex){
-            const newIndex = currentIndex == 0 ? 0 : currentIndex - 1;
-            this.currentSlide = this.slides[newIndex];
         },
         update(){
             this.currentSlide = this.slides[0];

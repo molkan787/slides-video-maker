@@ -5,8 +5,9 @@
             @dblclick="itemDoubleClick(item)"
             >
             <template v-if="item.content.type == 'text'">
-                <textarea :style="item.content.style" v-model="item.content.text"
+                <textarea @input="$emit('itemTextChange')" :style="item.content.style" v-model="item.content.text"
                 @blur="item.editing = false"
+                onblur="let val = this.value; this.value = ''; this.value = val;"
                 :disabled="!item.editing" autofocus
                 ></textarea>
             </template>
@@ -96,6 +97,11 @@ export default {
         resize: none;
         outline: none;
         overflow: hidden;
+        line-height: normal;
+        &:disabled{
+            user-select: none;
+            pointer-events: none;
+        }
     }
 }
 </style>

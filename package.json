@@ -25,6 +25,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "fast-xml-parser": "^3.16.0",
     "fluent-ffmpeg": "^2.1.2",
+    "font-list": "^1.2.11",
     "howler": "^2.2.0",
     "image-size": "^0.8.3",
     "memorystream": "^0.3.1",

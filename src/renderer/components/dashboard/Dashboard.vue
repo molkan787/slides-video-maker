@@ -30,6 +30,9 @@ export default {
                 obj[prop] = patch[prop];
             }
         }
+    },
+    created(){
+        this.createProject('classic');
     }
 }
 </script>

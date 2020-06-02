@@ -4,6 +4,7 @@ import axios from 'axios'
 import App from './App'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import shell from './shell'
 import { loadCSSFile } from './helpers'
 
 import '@mdi/font/css/materialdesignicons.css'
@@ -31,3 +32,5 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+
+shell.load();

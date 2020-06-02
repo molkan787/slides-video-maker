@@ -2,7 +2,7 @@
   <v-app>
     <HomePage />
     <PublishDialog />
-    <!-- <Test /> -->
+    <ColorPicker />
     <Dialog />
   </v-app>
 </template>
@@ -11,7 +11,8 @@
 import HomePage from './components/HomePage';
 import Dialog from './components/Dialog';
 import PublishDialog from './components/PublishDialog';
-import Test from './components/Test';
+import ColorPicker from './components/helpers/ColorPicker';
+// import Test from './components/Test';
 
 export default {
   name: 'App',
@@ -20,7 +21,7 @@ export default {
     HomePage,
     Dialog,
     PublishDialog,
-    Test
+    ColorPicker
   },
 
   data: () => ({
