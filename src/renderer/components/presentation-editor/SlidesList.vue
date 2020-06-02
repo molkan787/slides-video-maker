@@ -15,8 +15,10 @@
             </v-btn>
         </div>
         <div class="contentWrapper">
-            <SlideItem v-for="(item, index) in items" :key="index"
-                :item="item" :active="item == pvalue" @click="itemClick" :type="type" />
+            <Draggable :list="items">
+                <SlideItem v-for="(item, index) in items" :key="index"
+                    :item="item" :active="item == pvalue" @click="itemClick" :type="type" />
+            </Draggable>
             <div class="addnew" v-ripple @click="addnew">
                 <v-icon large>mdi-plus</v-icon>
             </div>
@@ -25,10 +27,12 @@
 </template>
 
 <script>
+import Draggable from 'vuedraggable';
 import SlideItem from './SlideItem';
 export default {
     components: {
-        SlideItem
+        SlideItem,
+        Draggable
     },
     props: {
         type: {

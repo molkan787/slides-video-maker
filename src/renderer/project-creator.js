@@ -58,7 +58,7 @@ export default class ProjectCreator{
             duration: 5000,
         };
         const createSlide = () => this.cloneObject(slide);
-        return {
+        const project = {
             type: 'kinetic',
             template: {
                 templates: [
@@ -71,12 +71,16 @@ export default class ProjectCreator{
                     return _slide;
                 }
             },
-            slides: [createSlide()],
+            slides: [],
             audioFilename: '',
             timeline: {
                 duration: 30000,
             }
+        };
+        for(let i = 0; i < project.template.templates.length; i++){
+            project.slides.push(project.template.createNewSlide(i));
         }
+        return project;
     }
 
     static cloneObject(obj){

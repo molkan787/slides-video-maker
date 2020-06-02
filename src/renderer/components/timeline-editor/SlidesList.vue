@@ -92,6 +92,7 @@ export default {
     }
 }
 .button{
+    position: relative;
     display: table;
     height: 100%;
     width: 50px;

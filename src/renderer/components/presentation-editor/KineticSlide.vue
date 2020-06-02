@@ -4,9 +4,9 @@
             <div class="background"></div>
             <section class="content">
                 <div class="block1">
-                    <h5 @input="onInput($event, 0)" @blur="flushBuffer(0)" :contenteditable="enableEditing" class="kc kc-0">{{ data.content[0] }}</h5>
-                    <h1 @input="onInput($event, 1)" @blur="flushBuffer(1)" :contenteditable="enableEditing" class="kc kc-1">{{ data.content[1] }}</h1>
-                    <h5 @input="onInput($event, 2)" @blur="flushBuffer(2)" :contenteditable="enableEditing" class="kc kc-2">{{ data.content[2] }}</h5>
+                    <h5 :key="'k1' + kcKey" @blur="flushChanges($event, 0)" :contenteditable="enableEditing" class="kc kc-0">{{ data.content[0] }}</h5>
+                    <h1 :key="'k2' + kcKey" @blur="flushChanges($event, 1)" :contenteditable="enableEditing" class="kc kc-1">{{ data.content[1] }}</h1>
+                    <h5 :key="'k3' + kcKey" @blur="flushChanges($event, 2)" :contenteditable="enableEditing" class="kc kc-2">{{ data.content[2] }}</h5>
                     <div class="kc kc-3"></div>
                 </div>
             </section>
@@ -31,19 +31,16 @@ export default {
         }
     },
     data:() => ({
-        buffer: []
+        kcKey: 0
     }),
+    watch: {
+        data(){
+            this.kcKey++;
+        }
+    },
     methods: {
-        onInput(event, index){
-            this.buffer[index] = event.target.innerText;
-        },
-        flushBuffer(index){
-            const data = this.buffer[index];
-            if(typeof data != 'undefined'){
-                // this.data.content[index] = data;
-                this.$set(this.data.content, index, data);
-                delete this.buffer[index];
-            }
+        flushChanges(event, index){
+            this.$set(this.data.content, index, event.target.textContent);
         }
     }
 }

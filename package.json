@@ -37,6 +37,7 @@
     "vue-moveable": "^1.8.2",
     "vue-template-compiler": "2.6.10",
     "vue-timeselector": "^1.0.0",
+    "vuedraggable": "^2.23.2",
     "vuetify": "2.1.0",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.0"
