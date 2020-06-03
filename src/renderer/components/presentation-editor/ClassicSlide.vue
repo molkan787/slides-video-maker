@@ -77,7 +77,7 @@ export default {
 }
 .item{
     position: absolute;
-    overflow: hidden;
+    // overflow: hidden;
     font-size: 26.5px;
     
     &[contenteditable=true]{
@@ -95,6 +95,8 @@ export default {
         width: 100%;
         height: 100%;
         resize: none;
+        // outline-color: #28a4d4;
+        // outline-width: 4px;
         outline: none;
         overflow: hidden;
         line-height: normal;

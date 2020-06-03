@@ -69,6 +69,13 @@ export default {
             mel.style.height = height + 'px';
             moveable.updateRect();
         },
+        setMoveableSize(width, height){
+            const moveable = this.$refs.moveable;
+            const mel = moveable.$el;
+            mel.style.width = width + 'px';
+            mel.style.height = height + 'px';
+            moveable.updateRect();
+        },
         extractPosition(event){
             const { transform, translate } = event;
             const [ x, y ] = translate;
@@ -129,11 +136,11 @@ export default {
         },
         hideControlsDots(){
             const el = document.querySelector('.moveable-control-box');
-            el.classList.add('hide-dots');
+            el.classList.add('hidden');
         },
         showControlsDots(){
             const el = document.querySelector('.moveable-control-box');
-            el.classList.remove('hide-dots');
+            el.classList.remove('hidden');
         }
     },
     mounted(){
@@ -160,7 +167,7 @@ div{
 .rCSeieii1{
     z-index: 1 !important;
 }
-.moveable-control-box.hide-dots{
+.moveable-control-box.hidden{
     .moveable-control{
         opacity: 0 !important;
     }

@@ -52,7 +52,8 @@ export default {
             const { width, height } = calcTextSize(text || ' ', style);
             this.currentItem.rect.width = width;
             this.currentItem.rect.height = height;
-            this.forceItemUpdate();
+            this.$refs.editor.setMoveableSize(width, height);
+            // this.forceItemUpdate_d();
         },
         forceItemUpdate(){
             const currentItem = this.currentItem;

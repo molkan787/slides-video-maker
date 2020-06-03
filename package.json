@@ -23,6 +23,7 @@
     "axios": "^0.18.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "debounce": "^1.2.0",
     "fast-xml-parser": "^3.16.0",
     "fluent-ffmpeg": "^2.1.2",
     "font-list": "^1.2.11",
