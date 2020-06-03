@@ -1,38 +1,42 @@
 <template>
     <div class="dashboard">
         <div class="wrapper">
-            <h1>Create new Presentation</h1>
-            <v-btn @click="classicClick">Classic style Presentation</v-btn>
-            <v-btn @click="kineticClick">Kinetic style Presentation</v-btn>
+            <v-card elevation="1">
+                <h1>Create new Presentation</h1>
+                <h4>Presentation Style:</h4>
+                <v-btn-toggle v-model="projectType" mandatory >
+                    <v-btn value="classic">Classic</v-btn>
+                    <v-btn value="kinetic">Kinetic</v-btn>
+                </v-btn-toggle>
+                <h4 class="mt-7">Project:</h4>
+                <v-btn-toggle v-model="inputRawText" mandatory >
+                    <v-btn :value="false">Start from<br>scratch</v-btn>
+                    <v-btn :value="true">Paste Text</v-btn>
+                </v-btn-toggle>
+                <v-btn @click="createProject" class="submit white--text" block dark elevation="0">Create</v-btn>
+            </v-card>
         </div>
     </div>
 </template>
 
 <script>
-import ProjectCreator from '../../project-creator';
+import ProjectFactory from '../../project-factory';
 import { mapState } from 'vuex';
 export default {
-    computed: mapState(['project', 'steps']),
+    computed: mapState(['project', 'steps', 'app']),
     methods: {
-        classicClick(){
-            this.createProject('classic');
-        },
-        kineticClick(){
-            this.createProject('kinetic');
-        },
         createProject(type){
-            const project = ProjectCreator.create(type);
-            this.patchObject(this.project, project);
-            this.steps.current = 'editor';
-        },
-        patchObject(obj, patch){
-            for(let prop in patch){
-                obj[prop] = patch[prop];
-            }
+            this.app.rawInputRequested = this.inputRawText;
+            this.project.type = this.projectType;
+            this.steps.current = 'design-setting';
         }
     },
-    created(){
-        this.createProject('classic');
+    data:() => ({
+        projectType: 'classic',
+        inputRawText: false,
+    }),
+    mounted(){
+        this.projectType = this.project.type || 'classic';
     }
 }
 </script>
@@ -48,15 +52,26 @@ export default {
         height: 100%;
         vertical-align: middle;
         text-align: center;
+        .v-card{
+            display: inline-block;
+            width: fit-content;
+            padding: 20px;
+        }
         h1{
-            margin-bottom: 50px;
+            margin-bottom: 80px;
+        }
+        h4{
+            margin-bottom: 10px;
         }
         button{
-            height: 80px;
-            width: 350px;
+            height: 48px;
+            width: 200px;
             font-weight: bold;
             font-size: 15px;
             color: #555;
+            &.submit{
+                margin-top: 100px;
+            }
         }
     }
 }

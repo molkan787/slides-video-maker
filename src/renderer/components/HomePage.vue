@@ -16,6 +16,7 @@
         <div class="editorParent">
 
             <Dashboard v-if="step == 'dashboard'" />
+            <DesignSetting ref="designSetting" v-else-if="step == 'design-setting'" />
             <Editor v-else-if="step == 'editor'"
                 :slides="project.slides" :type="project.type" :template="project.template" />
             <TimelineEditor v-else-if="step == 'timeline'" />
@@ -25,15 +26,17 @@
 </template>
 
 <script>
+import Dashboard from './dashboard/Dashboard';
+import DesignSetting from './design-setting/DesignSetting';
 import Editor from './presentation-editor/Editor';
 import TimelineEditor from './timeline-editor/TimelineEditor';
-import Dashboard from './dashboard/Dashboard';
 import { mapState } from 'vuex';
 export default{
     components: {
         Editor,
         TimelineEditor,
-        Dashboard
+        Dashboard,
+        DesignSetting
     },
     computed: {
         ...mapState(['project', 'steps']),
@@ -46,14 +49,18 @@ export default{
     }),
     methods: {
         back(){
-            if(this.step == 'editor')
+            if(this.step == 'design-setting'){
                 this.steps.current = 'dashboard';
-            else if(this.step == 'timeline'){
+            }else if(this.step == 'editor'){
+                this.steps.current = 'design-setting';
+            }else if(this.step == 'timeline'){
                 this.steps.current = 'editor';
             }
         },
         next(){
-            if(this.step == 'editor')
+            if(this.step == 'design-setting'){
+                this.$refs.designSetting.submit();
+            }else if(this.step == 'editor')
                 this.steps.current = 'timeline';
             else if(this.step == 'timeline'){
                 this.publish();

@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <HomePage />
+    <!-- <Test /> -->
     <PublishDialog />
     <ColorPicker />
     <Dialog />
@@ -21,7 +22,8 @@ export default {
     HomePage,
     Dialog,
     PublishDialog,
-    ColorPicker
+    ColorPicker,
+    // Test
   },
 
   data: () => ({

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-select :items="animations" v-model="slide.animation" value="fade" class="myinput medium"
+        <v-select :items="app.animations" v-model="slide.animation" value="fade" class="myinput medium"
             label="Slide Transition" outlined dense hide-details background-color="white" menu-props="auto"
             :disabled="type !== 'classic'" :style="{ opacity: type == 'classic' ? 1 : 0 }"/>
         <template v-if="type == 'classic'">
@@ -23,7 +23,7 @@
                 <v-autocomplete @input="updateItemSize" :items="app.fontsList" v-model="itemStyle['font-family']" class="myinput m2 medium" placeholder="Font Name"
                  outlined filled dense hide-details background-color="grey lighten-5" no-data-text="Font not found" menu-props="auto"/>
 
-                <v-select @input="updateItemSize" :items="fontSizes" v-model="itemStyle['font-size']" class="myinput m2 small"
+                <v-select @input="updateItemSize" :items="app.fontSizes" v-model="itemStyle['font-size']" class="myinput m2 small"
                  outlined filled dense hide-details background-color="grey lighten-5" placeholder="42" menu-props="auto" />
             </template>
             
@@ -69,14 +69,6 @@ export default {
             return (this.item && this.item.content.style) || {};
         }
     },
-    data:() => ({
-        animations: [
-            { value: 'fade', text: 'Fade'},
-            { value: 'zoom', text: 'Zoom'},
-            { value: 'slide', text: 'Slide'},
-        ],
-        fontSizes: []
-    }),
     methods: {
         updateItemSize(){
             this.classicEditor.updateCurrentItemSize();
@@ -84,13 +76,6 @@ export default {
         deleteItemClick(){
             this.classicEditor.deleteCurrentItem();
         }
-    },
-    created(){
-        const sizes = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 30, 32, 36, 42, 48, 52, 58, 64, 70, 74, 80, 86, 90, 100, 110, 120, 130, 140, 150, 175, 200, 250, 300];
-        this.fontSizes = sizes.map(s => ({
-            value: (s / 1.6) + 'px',
-            text: s
-        }))
     }
 }
 </script>
@@ -104,7 +89,7 @@ export default {
     width: 180px;
     display: inline-block;
     &.medium{
-        width: 130px;
+        width: 140px;
     }
     &.small{
         width: 100px;

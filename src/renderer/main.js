@@ -1,3 +1,4 @@
+import mypolifill from './mypolifill';
 import path from 'path'
 import Vue from 'vue'
 import axios from 'axios'
