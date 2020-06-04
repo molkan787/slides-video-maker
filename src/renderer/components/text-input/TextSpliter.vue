@@ -44,6 +44,13 @@ export default {
                 ta.selectionEnd = newpos;
                 ta.focus();
             })
+        },
+
+        getItems(){
+            return this.text
+                    .split(MARK_CHAR)
+                    .map(s => s.trim())
+                    .filter(s => s.length);
         }
     }
 }
@@ -54,7 +61,7 @@ export default {
     background-color: white;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 2px #444;
+    // box-shadow: 0 0 2px #444;
 }
 $headerHeight: 30px;
 $footerHeight: 50px;

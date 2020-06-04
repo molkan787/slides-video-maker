@@ -9,7 +9,7 @@
                         <div class="handle">
                             <v-icon>mdi-apps</v-icon>
                         </div>
-                        <div class="delete-btn" title="Remove slide">
+                        <div @click="deleteItem(index)" class="delete-btn" title="Remove slide">
                             <v-icon>mdi-delete</v-icon>
                         </div>
                     </div>
@@ -33,6 +33,11 @@ export default {
             type: Array,
             required: true
         }
+    },
+    methods: {
+        deleteItem(index){
+            this.items.splice(index, 1);
+        }
     }
 }
 </script>
@@ -42,7 +47,7 @@ export default {
     background-color: white;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 2px #444;
+    // box-shadow: 0 0 2px #444;
 }
 $headerHeight: 30px;
 $footerHeight: 50px;

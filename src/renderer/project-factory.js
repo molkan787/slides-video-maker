@@ -1,10 +1,12 @@
 export default class ProjectFactory{
 
-    static create(type, template){
-        return type == 'classic' ? this.createClassicProject(template) : this.createKineticProject(template);
+    static create(type, template, rawSlides){
+        return type == 'classic' ?
+            this.createClassicProject(template, rawSlides):
+            this.createKineticProject(template, rawSlides);
     }
 
-    static createClassicProject(template){
+    static createClassicProject(template, rawSlides){
         const { background, animation, fontFamily, fontSize, textColor } = template;
         const defaultText = 'New slide';
         const _fontFamily = fontFamily || '"Roboto", sans-serif';
@@ -29,22 +31,34 @@ export default class ProjectFactory{
             animation,
         };
         const createSlide = () => Object.clone(slide);
-        return {
+        const project = {
             type: 'classic',
             template: {
                 createNewSlide(positionIndex){
                     return createSlide();
                 }
             },
-            slides: [createSlide()],
+            slides: [],
             audioFilename: '',
             timeline: {
                 duration: 30000,
             }
         }
+        if(rawSlides){
+            for(let slideStr of rawSlides){
+                const slide = project.template.createNewSlide();
+                const contentItem = slide.content[0];
+                contentItem.content.text = slideStr;
+                contentItem.rect = this.calcCenteredItemRect(slideStr, _fontFamily, _fontSize);
+                project.slides.push(slide);
+            }
+        }else{
+            project.slides.push(project.template.createNewSlide());
+        }
+        return project;
     }
 
-    static createKineticProject(templates){
+    static createKineticProject(templates, rawSlides){
         const slide = {
             content: [
                 'SOME TITLE',
@@ -71,8 +85,18 @@ export default class ProjectFactory{
                 duration: 30000,
             }
         };
-        for(let i = 0; i < project.template.templates.length; i++){
-            project.slides.push(project.template.createNewSlide(i));
+        if(rawSlides){
+            for(let i = 0; i < rawSlides.length; i++){
+                const slideStr = rawSlides[i];
+                const lines = slideStr.split('\n');
+                const slide = project.template.createNewSlide(i);
+                slide.content = lines;
+                project.slides.push(slide);
+            }
+        }else{
+            for(let i = 0; i < project.template.templates.length; i++){
+                project.slides.push(project.template.createNewSlide(i));
+            }
         }
         return project;
     }

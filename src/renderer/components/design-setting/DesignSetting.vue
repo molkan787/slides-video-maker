@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import ProjectFactory from '../../project-factory';
+import { mapState } from 'vuex';
 import TemplateItem from './TemplateItem';
 import ClassicSlide from '../presentation-editor/ClassicSlide';
 import KineticSlide from '../presentation-editor/KineticSlide';
@@ -113,7 +112,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['setProject']),
         setSelected(slide){
             this.selected = slide;
         },
@@ -125,7 +123,7 @@ export default {
             const css = `linear-gradient(180deg, ${color1} 0%, ${color2} 100%)`;
             this.classicSlides.gradient.background.css = css;
         },
-        submit(){
+        getTemplate(){
             if(this.selected){
                 const template = this.type == 'classic' ? {
                     animation: this.animation,
@@ -136,11 +134,10 @@ export default {
                     'template-1',
                     'template-2'
                 ];
-                const project = ProjectFactory.create(this.type, template);
-                this.setProject(project);
-                this.steps.current = 'editor';
+                return template;
             }else{
                 alert('Please select a template');
+                return null;
             }
         }
     },

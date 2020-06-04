@@ -15,7 +15,8 @@
         </v-app-bar>
         <div class="editorParent">
 
-            <Dashboard v-if="step == 'dashboard'" />
+            <TextInput v-if="textInputStep" ref="textInput"/>
+            <Dashboard v-else-if="step == 'dashboard'" />
             <DesignSetting ref="designSetting" v-else-if="step == 'design-setting'" />
             <Editor v-else-if="step == 'editor'"
                 :slides="project.slides" :type="project.type" :template="project.template" />
@@ -26,29 +27,41 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+import ProjectFactory from '../project-factory';
 import Dashboard from './dashboard/Dashboard';
 import DesignSetting from './design-setting/DesignSetting';
+import TextInput from './text-input/TextInput';
 import Editor from './presentation-editor/Editor';
 import TimelineEditor from './timeline-editor/TimelineEditor';
-import { mapState } from 'vuex';
 export default{
     components: {
         Editor,
         TimelineEditor,
         Dashboard,
-        DesignSetting
+        DesignSetting,
+        TextInput
     },
     computed: {
-        ...mapState(['project', 'steps']),
+        ...mapState(['project', 'steps', 'app']),
         step(){
             return this.steps.current;
         }
     },
     data:() => ({
-
+        textInputStep: false,
+        template: null,
     }),
     methods: {
+        ...mapActions(['setProject']),
         back(){
+            if(this.textInputStep){
+                if(!this.$refs.textInput.back()){
+                    this.textInputStep = false;
+                }
+                return;
+            }
+
             if(this.step == 'design-setting'){
                 this.steps.current = 'dashboard';
             }else if(this.step == 'editor'){
@@ -58,13 +71,38 @@ export default{
             }
         },
         next(){
+            if(this.textInputStep){
+                if(!this.$refs.textInput.next()){
+                    this.createProject(this.template);
+                    this.textInputStep = false;
+                }
+                return;
+            }
+
             if(this.step == 'design-setting'){
-                this.$refs.designSetting.submit();
+                const template = this.$refs.designSetting.getTemplate();
+                if(template){
+                    this.submitTemplate(template);
+                }
             }else if(this.step == 'editor')
                 this.steps.current = 'timeline';
             else if(this.step == 'timeline'){
                 this.publish();
             }
+        },
+        submitTemplate(template){
+            if(this.app.rawInputRequested){
+                this.template = template;
+                this.textInputStep = true;
+            }else{
+                this.createProject(template);
+            }
+        },
+        createProject(template){
+            const rawSlides = this.app.rawInputRequested ? this.app.rawSlides : null;
+            const project = ProjectFactory.create(this.project.type, template, rawSlides);
+            this.setProject(project);
+            this.steps.current = 'editor';
         },
         publish(){
             const slides = this.project.slides.filter(slide => slide.checked);
