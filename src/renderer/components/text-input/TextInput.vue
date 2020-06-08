@@ -1,5 +1,5 @@
 <template>
-    <div class="text-input-root">
+    <div class="text-input-root v-card">
         <TextSpliter v-if="step == 'split'" ref="spliter"/>
         <TextItemsEditor v-else-if="step == 'edit'" ref="editor" :items="items"/>
     </div>
@@ -56,5 +56,6 @@ export default {
 .text-input-root{
     width: 100%;
     height: 100%;
+    padding: 20px;
 }
 </style>

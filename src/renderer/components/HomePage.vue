@@ -1,18 +1,22 @@
 <template>
     <div class="homePage">
-        <v-app-bar dense color="primary" dark elevation="1" class="header">
-            <v-toolbar-title>Slides Video Maker</v-toolbar-title>
+        <v-app-bar dense dark elevation="1" class="header">
+            <v-toolbar-title class="header-title">My Presentation</v-toolbar-title>
             <v-spacer></v-spacer>
             <template v-if="steps.current !== 'dashboard'">
-                <v-btn class="publishButton" @click="back" light right elevation="0" >
+                <v-btn class="mybutton" @click="back" light right elevation="0" >
                     Back
                 </v-btn>
-                <v-btn class="publishButton" @click="next" light right elevation="0" >
+                <v-btn class="mybutton primary-button" @click="next" light right elevation="0" >
                     <v-icon v-if="step == 'timeline'">mdi-movie</v-icon>
                     {{ step == 'timeline' ? 'Publish' : 'Next' }}
                 </v-btn>
             </template>
         </v-app-bar>
+        <div class="navigation">
+            <NavigationDrawer :current="step" :available="availableMenuItems"
+                @itemClick="navigationItemClick" />
+        </div>
         <div class="editorParent">
 
             <TextInput v-if="textInputStep" ref="textInput"/>
@@ -29,6 +33,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import ProjectFactory from '../project-factory';
+import NavigationDrawer from './NavigationDrawer';
 import Dashboard from './dashboard/Dashboard';
 import DesignSetting from './design-setting/DesignSetting';
 import TextInput from './text-input/TextInput';
@@ -36,6 +41,7 @@ import Editor from './presentation-editor/Editor';
 import TimelineEditor from './timeline-editor/TimelineEditor';
 export default{
     components: {
+        NavigationDrawer,
         Editor,
         TimelineEditor,
         Dashboard,
@@ -46,6 +52,15 @@ export default{
         ...mapState(['project', 'steps', 'app']),
         step(){
             return this.steps.current;
+        },
+        availableMenuItems(){
+            const s = this.step;
+            if(s == 'dashboard'){
+                if(this.project.slides.length > 0) return [0, 2, 3];
+                else return [0];
+            }
+            else if(s == 'design-setting') return [0, 1];
+            else if(s == 'editor' || s == 'timeline') return [0, 2, 3];
         }
     },
     data:() => ({
@@ -54,6 +69,9 @@ export default{
     }),
     methods: {
         ...mapActions(['setProject']),
+        navigationItemClick(name){
+            this.steps.current = name;
+        },
         back(){
             if(this.textInputStep){
                 if(!this.$refs.textInput.back()){
@@ -140,18 +158,37 @@ export default{
 
 <style lang="scss" scoped>
 .homePage{
-    height: 100%;
+    height: 100%;;
 }
 .header{
+    background-color: #FEFCFE !important;
+    .header-title{
+        margin-left: 220px;
+        color: #0e1e4c;
+        font-weight: bold;
+    }
     button{
         margin-left: 10px;
     }
 }
+$navigation-width: 220px;
+$appbar-height: 48px;
 .editorParent{
-    padding: 3px;
-    height: calc(100% - 48px);
+    position: absolute;
+    top: $appbar-height;
+    left: $navigation-width;
+    width: calc(100% - #{$navigation-width});
+    height: calc(100% - #{$appbar-height});
+    padding: 10px;
 }
-.publishButton{
+.navigation{
+    position: absolute;
+    height: 100%;
+    width: $navigation-width;
+    top: 0;
+    left: 0;
+}
+.mybutton{
     float: right;
 }
 </style>

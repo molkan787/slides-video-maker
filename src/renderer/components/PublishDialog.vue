@@ -7,7 +7,7 @@
             <br>
             <v-text-field :value="outputFilename" label="Output file" @click="selectOutputFile"
                 readonly :disabled="working" dense outlined hide-details />
-            <v-btn :loading="working" @click="publish" block elevation="1" class="publishButton">Publish</v-btn>
+            <v-btn :loading="working" @click="publish" block class="publishButton primary-button" elevation="0">Publish</v-btn>
             <p>
                 Status: {{ statusText }}
             </p>

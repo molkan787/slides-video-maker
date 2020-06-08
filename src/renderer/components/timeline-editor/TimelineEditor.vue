@@ -1,9 +1,8 @@
 <template>
-    <div class="timeline-editor">
-        <v-card>
-            <SlidesList :type="project.type" :items="project.slides" @itemCheckedChanged="itemCheckedChanged" />
-        </v-card>
-        <v-card class="middle-card pa-2 player" elevation="1">
+    <div class="timeline-editor v-card">
+        <SlidesList :type="project.type" :items="project.slides" @itemCheckedChanged="itemCheckedChanged" />
+
+        <div class="middle-card pa-2 player">
             <div class="canvas">
                 <div ref="playerSlideWrapper" class="playerSlideWrapper" :style="{width: playerSlide.width + 'px'}">
                     <template v-if="currentSlide">
@@ -25,8 +24,8 @@
                     <v-icon>mdi-timer</v-icon> Duration
                 </v-btn>
             </div>
-        </v-card>
-        <v-card class="pa-2 bottom-card" elevation="2">
+        </div>
+        <div class="pa-2 bottom-card" elevation="2">
             <div class="bottom left">
                 <div class="track-controll">Slides</div>
                 <div class="track-controll">
@@ -42,7 +41,7 @@
             <div class="bottom right">
                 <Timeline v-model="currentTime" @input="seekAudio" :duration="timeline.duration" :tracks="tracks" :playing="playing" />
             </div>
-        </v-card>
+        </div>
         <DurationSelector ref="durationSelector" />
     </div>
 </template>
@@ -267,7 +266,8 @@ export default {
 <style lang="scss" scoped>
 .timeline-editor{
     height: 100%;
-    padding: 5px;
+    padding: 0;
+    overflow: hidden;
 }
 .bottom-card{
     height: 142px;
@@ -309,9 +309,9 @@ export default {
 }
 .middle-card{
     box-sizing: border-box;
-    width: 600px;
+    width: 100%;
     margin: auto;
-    height: calc(100% - 290px);
+    height: calc(100% - 280px);
 }
 .player{
     .canvas{
@@ -330,7 +330,8 @@ export default {
         }
     }
     .controls{
-        width: 100%;
+        width: 500px;
+        margin: auto;
         height: 37px;
         background-color: #f1f1f1;
         border-radius: 4px;
@@ -360,6 +361,6 @@ export default {
     }
 }
 .v-card{
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 </style>

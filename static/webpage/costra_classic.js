@@ -24,7 +24,7 @@ class CostraClassic extends CostraFactory{
     }
 
     setupBackground(slideElement, background){
-        const { type, color, src } = background;
+        const { type, color, src, css } = background;
         if(type == 'color'){
             slideElement.style.backgroundColor = color;
         }else if(type == 'image'){
@@ -32,6 +32,8 @@ class CostraClassic extends CostraFactory{
             this.loadImage(_src).then(() => {
                 slideElement.style.backgroundImage = `url(${_src})`;
             })
+        }else if(type == 'css'){
+            slideElement.style.background = css;
         }
     }
 

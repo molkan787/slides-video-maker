@@ -13,7 +13,7 @@
                     <v-btn :value="false">Start from<br>scratch</v-btn>
                     <v-btn :value="true">Paste Text</v-btn>
                 </v-btn-toggle>
-                <v-btn @click="createProject" class="submit white--text" block dark elevation="0">Create</v-btn>
+                <v-btn @click="createProject" class="submit primary-button" block dark elevation="0">Create</v-btn>
             </v-card>
         </div>
     </div>

@@ -1,0 +1,42 @@
+@font-face {
+    font-family: Exo2;
+    src: url('../assets/Exo2-Regular.ttf');
+}
+@font-face {
+    font-family: Exo2;
+    src: url('../assets/Exo2-Bold.ttf');
+    font-weight: bold;
+}
+@font-face {
+    font-family: Exo2;
+    src: url('../assets/Exo2-Italic.ttf');
+    font-style: italic;
+}
+
+*:not(html):not(i):not(.loadingPanel){
+    font-family: Exo2;
+}
+
+.theme--light.v-application {
+    background: #E8EBEF;
+}
+.v-card {
+    background-color: #FEFDFF;
+    border-radius: 10px !important;
+}
+.v-card:not(.elevation-0), .elevation-1, .elevation-2, .v-toolbar.elevation-1 {
+    box-shadow: 0 0 20px #00000024 !important;
+}
+
+.primary-button{
+    background-color: #566BE3 !important;
+    color: white !important;
+}
+
+.v-btn.v-size--default, .v-btn.v-size--large {
+    font-size: .8rem;
+    letter-spacing: 1px;
+}
+.v-btn-toggle:not(.v-btn-toggle--dense) .v-btn.v-btn.v-size--default {
+    min-width: 44px !important;
+}

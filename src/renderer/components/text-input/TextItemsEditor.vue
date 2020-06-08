@@ -17,7 +17,7 @@
             </Draggable>
         </div>
         <div class="footer">
-            <v-btn elevation="0" dark @click="items.push('')">Add new slide</v-btn>
+            <v-btn class="primary-button" elevation="0" dark @click="items.push('')">Add new slide</v-btn>
         </div>
     </div>
 </template>
@@ -57,7 +57,7 @@ $footerHeight: 50px;
     height: calc(100% - #{$footerHeight + $headerHeight});
     overflow-y: scroll;
     padding: 5px;
-    background-color: rgb(243, 243, 243);
+    // background-color: rgb(243, 243, 243);
     border-radius: 3px;
 }
 .footer{

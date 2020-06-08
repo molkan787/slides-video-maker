@@ -1,8 +1,10 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { sleep } = require('./utils');
 
 const SHOW_WIN = false;
+const REQUEST_CHANNEL = 'set-slides';
+const REPLY_CHANNEL = 'set-slides-reply';
 
 export class WebPage{
 
@@ -23,10 +25,11 @@ export class WebPage{
             enableLargerThanScreen: true,
             webPreferences: {
                 offscreen: !SHOW_WIN,
+                nodeIntegration: true,
             },
         });
         win.setSize(width, height);
-        // win.openDevTools();
+        if(SHOW_WIN) win.openDevTools();
         win.loadFile(path.join(__static, 'webpage', 'index.html'));
         await this.didFinishLoad(win);
         await sleep(100);
@@ -36,9 +39,19 @@ export class WebPage{
     }
 
     setSlides(slide1, slide2){
-        const slide1String = slide1 ? JSON.stringify(slide1).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n') : ''; 
-        const slide2String = JSON.stringify(slide2).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n'); 
-        return this.exec(`setSlides('${slide1String}', '${slide2String}')`);
+        return new Promise((resolve, reject) => {
+            this.window.webContents.send(REQUEST_CHANNEL, slide1, slide2);
+            ipcMain.once(REPLY_CHANNEL, (e, error, data) => {
+                console.log('Got IPC reply:', error, data);
+                if(error) reject(new Error(error));
+                else resolve(data);
+            })
+        })
+
+        // const slide1String = slide1 ? JSON.stringify(slide1).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n') : ''; 
+        // console.log(slide1String);
+        // const slide2String = JSON.stringify(slide2).replace(/'/g, "\\'").replace(/\\n/g, '\\\\n');
+        // return this.exec(`setSlides('${ebs(slide1String)}', '${ebs(slide2String)}')`);
     }
 
     seekTransition(stage){
@@ -65,4 +78,8 @@ export class WebPage{
         this.window.destroy();
         this.window = null;
     }
+}
+
+function ebs(str){
+    return str.replace(/\\/g, '\\\\');
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="root-pane">
+    <div class="root-pane v-card">
         <div class="header" v-if="type == 'classic'">
             <template>
 
@@ -157,7 +157,7 @@ export default {
     width: 100%;
     height: 100%;
     // box-shadow: 0 0 2px #444;
-    padding: 10px;
+    padding: 20px;
 }
 $headerHeight: 50px;
 $subHeaderHeight: 30px;

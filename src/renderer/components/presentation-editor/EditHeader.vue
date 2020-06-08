@@ -89,7 +89,7 @@ export default {
     width: 180px;
     display: inline-block;
     &.medium{
-        width: 140px;
+        width: 120px;
     }
     &.small{
         width: 100px;

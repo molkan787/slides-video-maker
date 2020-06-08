@@ -3,8 +3,8 @@
         <h4>Place a mark at each position you want to make a separate slide.</h4>
         <textarea v-model="text" ref="textarea" class="editor" />
         <div class="footer">
-            <v-btn elevation="0" dark @click="addMarkAtCurrentPosition">Add mark</v-btn>
-            <v-btn elevation="0" dark @click="autoMarkEachLine">Auto Mark</v-btn>
+            <v-btn class="primary-button" elevation="0" dark @click="addMarkAtCurrentPosition">Add mark</v-btn>
+            <v-btn class="primary-button" elevation="0" dark @click="autoMarkEachLine">Auto Mark</v-btn>
         </div>
     </div>
 </template>
@@ -58,7 +58,6 @@ export default {
 
 <style lang="scss" scoped>
 .root{
-    background-color: white;
     width: 100%;
     height: 100%;
     // box-shadow: 0 0 2px #444;

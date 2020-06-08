@@ -72,6 +72,7 @@ export default {
     width: 100%;
     height: 140px;
     overflow: hidden;
+    box-shadow: 0 0 8px #0000002e;
 }
 .contentParent{
     display: inline-block;

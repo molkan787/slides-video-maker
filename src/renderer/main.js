@@ -8,6 +8,7 @@ import vuetify from './plugins/vuetify'
 import shell from './shell'
 import { loadCSSFile } from './helpers'
 
+import './styles/global.scss'
 import '@mdi/font/css/materialdesignicons.css'
 
 const stylesDir = path.join(__static, 'webpage', 'styles')

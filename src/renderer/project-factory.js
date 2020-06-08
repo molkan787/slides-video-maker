@@ -9,7 +9,7 @@ export default class ProjectFactory{
     static createClassicProject(template, rawSlides){
         const { background, animation, fontFamily, fontSize, textColor } = template;
         const defaultText = 'New slide';
-        const _fontFamily = fontFamily || '"Roboto", sans-serif';
+        const _fontFamily = fontFamily || 'Roboto, sans-serif';
         const _fontSize = fontSize || '26.25px';
         const slide = {
             content: [
