@@ -45,6 +45,8 @@ export default {
                     return `Rendering slides ${this.progress + 1}/${this.slides.length}`;
                 }else if(this.statusCode == 'rendering_video'){
                     return 'Rendering video...'
+                }else if(this.statusCode == 'adding_audio'){
+                    return 'Adding audio...';
                 }
             }else{
                 return '--';

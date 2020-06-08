@@ -41,7 +41,7 @@ export default class ProjectFactory{
             slides: [],
             audioFilename: '',
             timeline: {
-                duration: 30000,
+                duration: -1,
             }
         }
         if(rawSlides){
@@ -82,7 +82,7 @@ export default class ProjectFactory{
             slides: [],
             audioFilename: '',
             timeline: {
-                duration: 30000,
+                duration: -1,
             }
         };
         if(rawSlides){
@@ -105,10 +105,11 @@ export default class ProjectFactory{
 
     static calcCenteredItemRect(text, fontFamily, fontSize){
         const cWidth = 800, cHeight = 450;
-        const { width, height } = calcTextSize(text, {
+        let { width, height } = calcTextSize(text, {
             'font-family': fontFamily,
             'font-size': fontSize
         });
+        width *= 1.02;
         const x = (cWidth - width) / 2;
         const y = (cHeight - height) / 2;
         return {

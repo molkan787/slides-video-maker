@@ -53,6 +53,7 @@ html, body{
         .item{
             position: absolute;
             overflow: hidden;
+            white-space: pre;
             font-size: 26.5px;
             transform-origin: 0 0;
             img{

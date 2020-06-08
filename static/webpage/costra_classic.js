@@ -26,15 +26,16 @@ class CostraClassic extends CostraFactory{
     setupBackground(slideElement, background){
         const { type, color, src, css } = background;
         if(type == 'color'){
-            slideElement.style.backgroundColor = color;
+            slideElement.style.background = color;
         }else if(type == 'image'){
             const _src = src.replace(/\\/g, '\\\\');
             this.loadImage(_src).then(() => {
-                slideElement.style.backgroundImage = `url(${_src})`;
+                slideElement.style.background = `url(${_src})`;
             })
         }else if(type == 'css'){
             slideElement.style.background = css;
         }
+        document.body.style.background = slideElement.style.background;
     }
 
     generateContentHTML(slideElement, data){
@@ -60,9 +61,7 @@ class CostraClassic extends CostraFactory{
         // if(isText) styleString += `transform:scale(${this.scale});`;
         const contentHTML = isText ? this.escapeText(text) : `<img src="${src}"/>`;
         return `
-            <div class="item" style="${styleString}">
-                ${contentHTML}
-            </div>
+            <div class="item" style="${styleString}">${contentHTML}</div>
         `;
     }
 

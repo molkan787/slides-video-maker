@@ -68,7 +68,7 @@ export default {
                                 'color': 'white',
                                 'text-align': 'center',
                                 'font-size': '26.25px',
-                                'font-family': '"Roboto", sans-serif',
+                                'font-family': 'Roboto, sans-serif',
                             }
                         }
                     };

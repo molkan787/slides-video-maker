@@ -248,6 +248,11 @@ export default {
         this.updateSizes();
     },
     created(){
+        if(this.timeline.duration == -1){
+            const { type, slides } = this.project;
+            const timeperslide = type == 'classic' ? 5000 : 8000;
+            this.timeline.duration = timeperslide * slides.length;
+        }
         this.timer = new AccurateTimer(() => this.timerTick(), 50);
         this.resizeHandler = () => this.updateSizes();
         window.addEventListener('resize', this.resizeHandler);
@@ -296,7 +301,7 @@ export default {
             i{
                 position: absolute;
                 left: 16px;
-                top: 92px;
+                margin-top: 2px;
                 font-size: 20px;
                 cursor: pointer;
             }

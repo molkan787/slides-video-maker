@@ -31,7 +31,7 @@ export default new Vuex.Store({
       slides: [],
       audioFilename: '',
       timeline: {
-        duration: 60000,
+        duration: -1,
       }
     },
     timelineEditor: {
