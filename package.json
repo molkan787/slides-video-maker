@@ -1,6 +1,6 @@
 {
   "name": "slides-video-maker",
-  "version": "0.8.2",
+  "version": "0.9.2",
   "description": "App for creating presentation video using slides",
   "author": "Dahmane Seghier <contact@dahmane.pl>",
   "scripts": {

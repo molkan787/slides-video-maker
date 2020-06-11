@@ -55,8 +55,8 @@ export default {
     data:() => ({
         slideZoom: 0.2375,
         animation: 'fade',
-        fontFamily: null,
-        fontSize: null,
+        fontFamily: 'Arial',
+        fontSize: '62.5px',
 
         selected: null,
 

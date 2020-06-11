@@ -44,6 +44,8 @@ export default new Vuex.Store({
   actions: {
     setProject({state}, project){
       Object.patch(state.project, project);
+      state.timelineEditor.audio = null;
+      state.timelineEditor.currentTime = 0;
     }
   },
   modules: {

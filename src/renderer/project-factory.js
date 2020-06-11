@@ -11,31 +11,34 @@ export default class ProjectFactory{
         const defaultText = 'New slide';
         const _fontFamily = fontFamily || 'Roboto, sans-serif';
         const _fontSize = fontSize || '26.25px';
+        const item = {
+            rect: this.calcCenteredItemRect(defaultText, _fontFamily, _fontSize),
+            content: {
+                type: 'text',
+                text: defaultText,
+                style: {
+                    'color': textColor || 'white',
+                    'text-align': 'center',
+                    'font-size': _fontSize,
+                    'font-family': _fontFamily,
+                }
+            }
+        };
         const slide = {
-            content: [
-                {
-                    rect: this.calcCenteredItemRect(defaultText, _fontFamily, _fontSize),
-                    content: {
-                        type: 'text',
-                        text: defaultText,
-                        style: {
-                            'color': textColor || 'white',
-                            'text-align': 'center',
-                            'font-size': _fontSize,
-                            'font-family': _fontFamily,
-                        }
-                    }
-                },
-            ],
+            content: [ Object.clone(item) ],
             background,
             animation,
         };
-        const createSlide = () => Object.clone(slide);
         const project = {
             type: 'classic',
             template: {
+                item,
+                slide,
+                createItem(){
+                    return Object.clone(this.item);
+                },
                 createNewSlide(positionIndex){
-                    return createSlide();
+                    return Object.clone(this.slide);
                 }
             },
             slides: [],
@@ -108,8 +111,9 @@ export default class ProjectFactory{
         let { width, height } = calcTextSize(text, {
             'font-family': fontFamily,
             'font-size': fontSize
-        });
-        width *= 1.02;
+        }, { maxWidth: 800 });
+        width *= 1.05;
+        height *= 1.05;
         const x = (cWidth - width) / 2;
         const y = (cHeight - height) / 2;
         return {

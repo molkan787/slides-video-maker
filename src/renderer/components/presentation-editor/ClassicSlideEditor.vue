@@ -49,10 +49,14 @@ export default {
     methods: {
         updateCurrentItemSize(){
             const { text, style } = this.currentItem.content;
-            const { width, height } = calcTextSize(text || ' ', style);
+            let { width, height } = calcTextSize(text || ' ', style, { maxWidth: 760 });
+            width *= 1.05;
+            height *= 1.05;
             this.currentItem.rect.width = width;
             this.currentItem.rect.height = height;
-            this.$refs.editor.setMoveableSize(width, height);
+            this.currentItem.rect.x = (800 - width) / 2;
+            this.$refs.editor.setMoveableRect(this.currentItem.rect);
+            // this.$refs.editor.setMoveableSize(width, height);
             // this.forceItemUpdate_d();
         },
         forceItemUpdate(){

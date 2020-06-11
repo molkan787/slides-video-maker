@@ -8,9 +8,9 @@ class KineticTemplate1{
         const { content } = slide;
         return `
         <div class="block1">
-            <h5 class="kc kc-0">${content[0]}</h5>
-            <h1 class="kc kc-1">${content[1]}</h1>
-            <h5 class="kc kc-2">${content[2]}</h5>
+            <h5 class="kc kc-0">${content[0] || ''}</h5>
+            <h1 class="kc kc-1">${content[1] || ''}</h1>
+            <h5 class="kc kc-2">${content[2] || ''}</h5>
             <div class="kc kc-3"></div>
         </div>
         `;

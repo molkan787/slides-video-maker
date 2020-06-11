@@ -55,23 +55,7 @@ export default {
     }),
     methods: {
         addTextClick(){
-            const newItem = {
-                        rect: {
-                            x: 300, y: 200,
-                            width: 206,
-                            height: 38
-                        },
-                        content: {
-                            type: 'text',
-                            text: 'New text',
-                            style: {
-                                'color': 'white',
-                                'text-align': 'center',
-                                'font-size': '26.25px',
-                                'font-family': 'Roboto, sans-serif',
-                            }
-                        }
-                    };
+            const newItem = this.template.createItem();
             this.currentSlide.content.push(newItem)
             this.$refs.classicEditor.setCurrentItem(newItem)
             this.$refs.classicEditor.updateCurrentItemSize()

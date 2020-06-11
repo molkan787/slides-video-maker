@@ -102,7 +102,7 @@ export default {
         outline: none;
         overflow: hidden;
         line-height: normal;
-        white-space: pre;
+        white-space: pre-wrap;
         &:disabled{
             user-select: none;
             pointer-events: none;
