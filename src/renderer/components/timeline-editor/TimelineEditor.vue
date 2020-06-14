@@ -4,7 +4,7 @@
 
         <div class="middle-card pa-2 player">
             <div class="canvas">
-                <div ref="playerSlideWrapper" class="playerSlideWrapper" :style="{width: playerSlide.width + 'px'}">
+                <div ref="playerSlideWrapper" class="playerSlideWrapper v-card" :style="{width: playerSlide.width + 'px'}">
                     <template v-if="currentSlide">
                         <ClassicSlide v-if="project.type == 'classic'" :data="currentSlide" :zoom="playerSlide.zoom"/>
                         <KineticSlide v-else-if="project.type == 'kinetic'" :data="currentSlide" :zoom="playerSlide.zoom"/>
@@ -360,7 +360,7 @@ export default {
             width: 100%;
             font-size: 18px;
             font-weight: bold;
-            padding-top: 6px;
+            padding-top: 4px;
             text-align: center;
         }
     }

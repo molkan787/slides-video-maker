@@ -31,8 +31,8 @@ function seek(stage){
 }
 
 async function test(){
-    for(let i = 0; i <= 50; i++){
-        costra.seek(i / 50);
+    for(let i = 0; i <= 100; i++){
+        costra.seek(i / 100);
         await sleep(20);
     }
 }

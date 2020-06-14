@@ -2,8 +2,8 @@ import { PresentationRenderer } from './presentation-renderer/';
 
 export function test1() {
     const renderer = new PresentationRenderer();
-    renderer.render(test_data_classic, {
-        type: 'classic',
+    renderer.render(test_data_kinetic, {
+        type: 'kinetic',
         outputFilename: "C:\\Users\\Dahmane\\Desktop\\presentation.mp4",
         size: {
             width: 1280,
@@ -79,27 +79,19 @@ const test_data_classic = [
 const test_data_kinetic = [
     {
         content: [
-            'Small text size',
-            'Some bigger text is here!',
+            'Text size',
+            'Some bigger text!',
             'Just another smaller text!'
         ],
-        template: 'template-2',
+        template: 'heavy-1',
         duration: 5000,
     }, {
         content: [
-            'Thats the second slide',
-            'It is so beatiful, right?',
+            'Second slide',
+            'It is so beatifu',
             'Just another smaller text!'
         ],
-        template: 'template-1',
-        duration: 5000,
-    }, {
-        content: [
-            'The third slide',
-            'Thats fucking awesome, Right?',
-            'The animations are so smooth!'
-        ],
-        template: 'template-2',
+        template: 'heavy-1',
         duration: 5000,
     }
 ]

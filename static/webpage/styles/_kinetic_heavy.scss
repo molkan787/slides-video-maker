@@ -1,0 +1,35 @@
+.costra .kinetic{
+    &.heavy-1{
+        section{
+            padding-left: 0 !important;
+        }
+        .background{
+            display: none;
+        }
+        .block1{
+            text-align: center !important;
+            margin: auto !important;
+        }
+        .kc{
+            color: white;
+            text-align: center;
+            font-size: 90px;
+            text-transform: uppercase;
+            opacity: 0;
+        }
+        .kc-0{
+            margin-bottom: 2rem;
+            margin-top: -200px;
+        }
+        .kc-1{
+            margin-top: -200px;
+        }
+        .kc-2{
+            display: none !important;
+        }
+    }
+}
+
+.kinetic_heavy_body_style{
+    background-color: #FFAD00;
+}

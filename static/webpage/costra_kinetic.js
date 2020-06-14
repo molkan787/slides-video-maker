@@ -5,7 +5,8 @@ class CostraKinetic extends CostraFactory{
         this.namesapce = 'kinetic';
         this.templates = {
             'template-1': KineticTemplate1,
-            'template-2': KineticTemplate1
+            'template-2': KineticTemplate1,
+            'heavy-1': KineticHeavy1,
         };
     }
 

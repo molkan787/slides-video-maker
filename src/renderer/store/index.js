@@ -26,6 +26,7 @@ export default new Vuex.Store({
       current: 'dashboard',
     },
     project: {
+      name: null,
       type: '',
       template: {},
       slides: [],

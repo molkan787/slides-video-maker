@@ -1,7 +1,11 @@
 <template>
     <div class="homePage">
         <v-app-bar dense dark elevation="1" class="header">
-            <v-toolbar-title class="header-title">My Presentation</v-toolbar-title>
+            <v-toolbar-title class="header-title">{{ project.name || 'My Presentation' }}</v-toolbar-title>
+            <v-btn v-if="project.name" light elevation="0" tiny @click="saveClick" :loading="saveBtnLoading">
+                <v-icon>mdi-save</v-icon>
+                Save
+            </v-btn>
             <v-spacer></v-spacer>
             <template v-if="steps.current !== 'dashboard'">
                 <v-btn class="mybutton" @click="back" light right elevation="0" >
@@ -33,6 +37,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import ProjectFactory from '../project-factory';
+import ProjectsManager from '../projects-manager';
 import NavigationDrawer from './NavigationDrawer';
 import Dashboard from './dashboard/Dashboard';
 import DesignSetting from './design-setting/DesignSetting';
@@ -55,38 +60,55 @@ export default{
         },
         availableMenuItems(){
             const s = this.step;
-            if(s == 'dashboard'){
-                if(this.project.slides.length > 0) return [0, 2, 3];
-                else return [0];
-            }
+            if(s == 'dashboard') return [0];
             else if(s == 'design-setting') return [0, 1];
             else if(s == 'editor' || s == 'timeline') return [0, 2, 3];
-        }
+        },
     },
     data:() => ({
         textInputStep: false,
         template: null,
+        saveBtnLoading: false,
     }),
     methods: {
         ...mapActions(['setProject']),
-        navigationItemClick(name){
+        async saveClick(){
+            this.saveBtnLoading = true;
+            await ProjectsManager.saveCurrentProject();
+            this.saveBtnLoading = false;
+        },
+        async beforeDashboard(name){
+            if(name == 'dashboard' && this.project.name != null){
+                if(await confirm('Do you want to save current presentation before closing it?')){
+                    ProjectsManager.saveCurrentProject().then(() => {
+                        this.project.name = null;
+                    })
+                }
+            }
+        },
+        async navigationItemClick(name){
+            await this.beforeDashboard(name);
             this.steps.current = name;
         },
-        back(){
+        async back(){
             if(this.textInputStep){
                 if(!this.$refs.textInput.back()){
                     this.textInputStep = false;
                 }
                 return;
             }
-
+            let name = '';
             if(this.step == 'design-setting'){
-                this.steps.current = 'dashboard';
+                name = 'dashboard';
             }else if(this.step == 'editor'){
-                this.steps.current = 'design-setting';
+                // name = 'design-setting';
+                name = 'dashboard';
             }else if(this.step == 'timeline'){
-                this.steps.current = 'editor';
+                name = 'editor';
             }
+
+            await this.beforeDashboard(name);
+            this.steps.current = name;
         },
         next(){
             if(this.textInputStep){

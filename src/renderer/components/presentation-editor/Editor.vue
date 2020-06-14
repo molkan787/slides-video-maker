@@ -1,12 +1,12 @@
 <template>
     <v-card class="editor-root" elevation="0">
         <div class="leftSide">
-            <v-card elevation="1" class="pa-2">
+            <v-card elevation="1" class="pa-2" v-if="type == 'classic'">
                 <EditHeader :slide="currentSlide"
                     @addTextClick="addTextClick" @addImageClick="addImageClick"
                     :classicEditor="$refs.classicEditor" :type="type"/>
             </v-card>
-            <v-card class="slideEditCard">
+            <v-card class="slideEditCard" :class="type">
                 <div class="slideEditorWrapper">
                     <ClassicSlideEditor v-if="type == 'classic'" ref="classicEditor" :data="currentSlide" />
                     <KineticSlide v-else-if="type == 'kinetic'" :data="currentSlide" enableEditing/>
@@ -110,9 +110,14 @@ $rightWidth: 250px;
     width: $rightWidth;
 }
 .slideEditCard{
-    margin-top: 10px;
-    height: calc(100% - 66px);
     overflow: hidden;
+    &.classic{
+        margin-top: 10px;
+        height: calc(100% - 66px);
+    }
+    &.kinetic{
+        height: 100%;
+    }
 }
 .slideEditorWrapper{
     position: relative;

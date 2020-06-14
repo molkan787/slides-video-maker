@@ -46,13 +46,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .kinetic-slide-editor{
     width: 100%;
     height: 100%;
 }
 .content{
     zoom: 0.625;
+}
+.slide.kinetic{
+    &.heavy-1{
+        background-color: #FFAD00;
+        .block1{
+            width: 93%;
+        }
+        .kc{
+            opacity: 1 !important;
+            margin: 0 !important;
+            text-align: center;
+            width: 100%;
+            line-height: 1;
+        }
+    }
 }
 </style>
 

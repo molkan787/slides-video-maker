@@ -1,6 +1,7 @@
 import { promisify } from 'util';
+import path from 'path';
 import imageSize from 'image-size';
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 import { promptFile } from './helpers';
 const sizeOf = promisify(imageSize);
 
@@ -61,5 +62,9 @@ export default class Editor{
             filename,
             audio,
         }
+    }
+
+    static resolveAssetsPath(){
+        return path.join(__static, ...arguments).replace(/\\/g, '\\\\');
     }
 }

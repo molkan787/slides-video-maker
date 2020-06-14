@@ -29,6 +29,7 @@
     "font-list": "^1.2.11",
     "howler": "^2.2.0",
     "image-size": "^0.8.3",
+    "jsonfn": "^0.31.0",
     "memorystream": "^0.3.1",
     "querystring": "^0.2.0",
     "rimraf": "^3.0.2",

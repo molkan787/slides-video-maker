@@ -34,6 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .root-element{
+    float: left;
     position: relative;
     display: inline-block;
     box-sizing: border-box;
@@ -41,7 +42,9 @@ export default {
     height: 150px;
     padding: 5px;
     border-radius: 3px;
+    background-color: rgb(240, 240, 240);
     transition: background-color 0.5s;
+    margin: 0 10px 10px 0;
     &.active{
         background-color: #636363;
         .name{

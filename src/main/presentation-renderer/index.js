@@ -61,6 +61,7 @@ export class PresentationRenderer{
         for(let i = offset; i < slides.length; i++){
             if(progress.isFinished) break;
             const slide = slides[i];
+            // if(i == 0) continue; // DEBUG
             const transition = await this.renderTransition(slides, i);
             const { outputDir, framesCount, durationFactor, reduced } = transition;
             const tduration = durationFactor * 1000;

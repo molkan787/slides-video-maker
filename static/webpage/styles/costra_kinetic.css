@@ -1,3 +1,41 @@
+.costra .kinetic.heavy-1 section {
+  padding-left: 0 !important;
+}
+
+.costra .kinetic.heavy-1 .background {
+  display: none;
+}
+
+.costra .kinetic.heavy-1 .block1 {
+  text-align: center !important;
+  margin: auto !important;
+}
+
+.costra .kinetic.heavy-1 .kc {
+  color: white;
+  text-align: center;
+  font-size: 90px;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+.costra .kinetic.heavy-1 .kc-0 {
+  margin-bottom: 2rem;
+  margin-top: -200px;
+}
+
+.costra .kinetic.heavy-1 .kc-1 {
+  margin-top: -200px;
+}
+
+.costra .kinetic.heavy-1 .kc-2 {
+  display: none !important;
+}
+
+.kinetic_heavy_body_style {
+  background-color: #FFAD00;
+}
+
 .costra .kinetic {
   -webkit-perspective: 1000px;
           perspective: 1000px;
