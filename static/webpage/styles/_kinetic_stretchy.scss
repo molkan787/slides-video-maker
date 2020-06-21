@@ -1,0 +1,28 @@
+.costra .kinetic{
+    &.stretchy-1, &.stretchy-2{
+        section{
+            padding-left: 0 !important;
+        }
+        .block1{
+            text-align: center;
+            margin: auto;
+        }
+        .kc{
+            font-size: 80px;
+            margin-bottom: 2rem;
+        }
+        .kc-0, .kc-2{
+            font-weight: lighter;
+        }
+        &.out{
+            .block1{
+                transform-origin: top;
+            }
+        }
+        &.in{
+            .block1{
+                transform-origin: bottom;
+            }
+        }
+    }
+}

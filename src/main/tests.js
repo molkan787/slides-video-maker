@@ -83,7 +83,7 @@ const test_data_kinetic = [
             'Some bigger text!',
             'Just another smaller text!'
         ],
-        template: 'heavy-1',
+        template: 'stretchy-1',
         duration: 5000,
     }, {
         content: [
@@ -91,7 +91,7 @@ const test_data_kinetic = [
             'It is so beatifu',
             'Just another smaller text!'
         ],
-        template: 'heavy-1',
+        template: 'stretchy-2',
         duration: 5000,
     }
 ]

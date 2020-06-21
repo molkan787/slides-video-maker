@@ -42,7 +42,7 @@ export class PresentationRenderer{
                 await this.buildOutput(progress, inputs, audioFilename, outputFilename, duration / 1000);
                 progress.finish('completed');
                 webpage.destroy();
-                this.rimraf(path.join(this.tmpDirPath, '*'))
+                // this.rimraf(path.join(this.tmpDirPath, '*'))
             } catch (error) {
                 console.log('Error in PresentationRenderer.render()');
                 console.error(error);

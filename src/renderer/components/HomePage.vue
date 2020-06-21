@@ -75,15 +75,15 @@ export default{
         async saveClick(){
             this.saveBtnLoading = true;
             await ProjectsManager.saveCurrentProject();
+            await new Promise(r => setTimeout(r, 1000));
             this.saveBtnLoading = false;
         },
         async beforeDashboard(name){
             if(name == 'dashboard' && this.project.name != null){
                 if(await confirm('Do you want to save current presentation before closing it?')){
-                    ProjectsManager.saveCurrentProject().then(() => {
-                        this.project.name = null;
-                    })
+                    await ProjectsManager.saveCurrentProject();
                 }
+                this.project.name = null;
             }
         },
         async navigationItemClick(name){

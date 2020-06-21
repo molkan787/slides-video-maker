@@ -17,7 +17,7 @@ class Costra{
     async setSlides(slide1, slide2){
         const skipFirst = !slide1;
         this.element.innerHTML = '';
-        this.animation2 = this.createSlide(slide2, false, skipFirst ? 0 : 1400);
+        this.animation2 = this.createSlide(slide2, false, skipFirst ? 700 : 1400);
         this.animation1 = skipFirst ? anime({duration: 0}) : this.createSlide(slide1, !skipFirst);
         const totalDuration = Math.max(this.animation1.duration, this.animation2.duration);
         const factor = totalDuration / ANIMATION_DURATION;

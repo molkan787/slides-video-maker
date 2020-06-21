@@ -68,6 +68,21 @@ export default {
             line-height: 1;
         }
     }
+    &.stretchy-1, &.stretchy-2{
+        padding-top: 50px;
+    }
+    &.stretchy-1{
+        background-color: #333;
+    }
+    &.stretchy-2{
+        background-color: #111;
+    }
+    &.panes-1, &.panes-2, &.panes-3{
+        background-color: white;
+        .kc-0, .kc-2{
+            margin: 0 !important;
+        }
+    }
 }
 </style>
 

@@ -34,18 +34,18 @@ export default {
     computed: {
         rootStyle(){
             const { background } = this.data;
-            const zoomStyle = `zoom:${this.zoom};`;
+            const style = {zoom: this.zoom};
             if(background){
                 const { type, color, src, css } = background;
                 if(type == 'color'){
-                    return `${zoomStyle}background-color:${color};`;
+                    style['background-color'] = color;
                 }else if(type == 'image'){
-                    return `${zoomStyle}background-image: url(${src});`;
+                    style['background-image'] = `url("${src}")`;
                 }else if(type == 'css'){
-                    return `${zoomStyle}background:${css};`;
+                    style['background'] = css;
                 }
             }
-            return zoomStyle;
+            return style;
         }
     },
     methods: {

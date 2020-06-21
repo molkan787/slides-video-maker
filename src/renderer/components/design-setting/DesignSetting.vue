@@ -116,7 +116,7 @@ export default {
                     'JUST ANOTHER!'
                 ],
                 template: 'template-1',
-                data_name: 'Board 1',
+                data_name: 'Board',
                 data_templates: [
                     'template-1',
                     'template-2'
@@ -128,9 +128,36 @@ export default {
                     'Is more heavy',
                 ],
                 template: 'heavy-1',
-                data_name: 'Heavy 1',
+                data_name: 'Heavy',
                 data_templates: [
                     'heavy-1',
+                ]
+            },
+            {
+                content: [
+                    'Stretchy',
+                    'Is more stretchy',
+                    'stretch it',
+                ],
+                template: 'stretchy-1',
+                data_name: 'Stretchy',
+                data_templates: [
+                    'stretchy-1',
+                    'stretchy-2',
+                ]
+            },
+            {
+                content: [
+                    'Kiwi',
+                    'Kiwi with colors',
+                    'change it',
+                ],
+                template: 'panes-1',
+                data_name: 'Kiwi',
+                data_templates: [
+                    'panes-1',
+                    'panes-2',
+                    'panes-3',
                 ]
             }
         ],

@@ -133,9 +133,10 @@ export default {
         }
         a{
             font-size: 19px;
+            color: #5a5a5a;
         }
         i{
-            color: #1976D2;
+            color: #5a5a5a;
             font-size: 20px;
             margin-top: -3px;
             cursor: pointer;

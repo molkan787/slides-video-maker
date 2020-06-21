@@ -7,6 +7,11 @@ class CostraKinetic extends CostraFactory{
             'template-1': KineticTemplate1,
             'template-2': KineticTemplate1,
             'heavy-1': KineticHeavy1,
+            'stretchy-1': KineticStretchy,
+            'stretchy-2': KineticStretchy,
+            'panes-1': KineticPanes,
+            'panes-2': KineticPanes,
+            'panes-3': KineticPanes,
         };
     }
 

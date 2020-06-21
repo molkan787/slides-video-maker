@@ -36,6 +36,100 @@
   background-color: #FFAD00;
 }
 
+.costra .kinetic.stretchy-1 section, .costra .kinetic.stretchy-2 section {
+  padding-left: 0 !important;
+}
+
+.costra .kinetic.stretchy-1 .block1, .costra .kinetic.stretchy-2 .block1 {
+  text-align: center;
+  margin: auto;
+}
+
+.costra .kinetic.stretchy-1 .kc, .costra .kinetic.stretchy-2 .kc {
+  font-size: 80px;
+  margin-bottom: 2rem;
+}
+
+.costra .kinetic.stretchy-1 .kc-0, .costra .kinetic.stretchy-1 .kc-2, .costra .kinetic.stretchy-2 .kc-0, .costra .kinetic.stretchy-2 .kc-2 {
+  font-weight: lighter;
+}
+
+.costra .kinetic.stretchy-1.out .block1, .costra .kinetic.stretchy-2.out .block1 {
+  -webkit-transform-origin: top;
+          transform-origin: top;
+}
+
+.costra .kinetic.stretchy-1.in .block1, .costra .kinetic.stretchy-2.in .block1 {
+  -webkit-transform-origin: bottom;
+          transform-origin: bottom;
+}
+
+.costra .kinetic.panes-1 section, .costra .kinetic.panes-2 section, .costra .kinetic.panes-3 section {
+  padding-left: 0 !important;
+}
+
+.costra .kinetic.panes-1 .block1, .costra .kinetic.panes-2 .block1, .costra .kinetic.panes-3 .block1 {
+  text-align: center;
+  margin: auto;
+}
+
+.costra .kinetic.panes-1 .kc, .costra .kinetic.panes-2 .kc, .costra .kinetic.panes-3 .kc {
+  font-size: 80px;
+  margin: 0;
+}
+
+.costra .kinetic.panes-1 .kc.kc-0, .costra .kinetic.panes-2 .kc.kc-0, .costra .kinetic.panes-3 .kc.kc-0 {
+  margin: -24px 0;
+}
+
+.costra .kinetic.panes-1 .kc.kc-2, .costra .kinetic.panes-2 .kc.kc-2, .costra .kinetic.panes-3 .kc.kc-2 {
+  margin: -22px 0;
+}
+
+.costra .kinetic.panes-1 .kc.kc-0, .costra .kinetic.panes-1 .kc.kc-2, .costra .kinetic.panes-2 .kc.kc-0, .costra .kinetic.panes-2 .kc.kc-2, .costra .kinetic.panes-3 .kc.kc-0, .costra .kinetic.panes-3 .kc.kc-2 {
+  font-weight: lighter;
+  line-height: 1;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: hidden;
+  font-size: 70px;
+}
+
+.costra .kinetic.panes-1 .kc.kc-1, .costra .kinetic.panes-2 .kc.kc-1, .costra .kinetic.panes-3 .kc.kc-1 {
+  line-height: 1;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0.5rem 1rem;
+  color: white;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.costra .kinetic.panes-1.panes-1, .costra .kinetic.panes-2.panes-1, .costra .kinetic.panes-3.panes-1 {
+  color: #3ae60f;
+}
+
+.costra .kinetic.panes-1.panes-1 .kc-1, .costra .kinetic.panes-2.panes-1 .kc-1, .costra .kinetic.panes-3.panes-1 .kc-1 {
+  background-color: #3ae60f;
+}
+
+.costra .kinetic.panes-1.panes-2, .costra .kinetic.panes-2.panes-2, .costra .kinetic.panes-3.panes-2 {
+  color: #8500FF;
+}
+
+.costra .kinetic.panes-1.panes-2 .kc-1, .costra .kinetic.panes-2.panes-2 .kc-1, .costra .kinetic.panes-3.panes-2 .kc-1 {
+  background-color: #8500FF;
+}
+
+.costra .kinetic.panes-1.panes-3, .costra .kinetic.panes-2.panes-3, .costra .kinetic.panes-3.panes-3 {
+  color: #FF7E00;
+}
+
+.costra .kinetic.panes-1.panes-3 .kc-1, .costra .kinetic.panes-2.panes-3 .kc-1, .costra .kinetic.panes-3.panes-3 .kc-1 {
+  background-color: #FF7E00;
+}
+
 .costra .kinetic {
   -webkit-perspective: 1000px;
           perspective: 1000px;

@@ -1,0 +1,58 @@
+.costra .kinetic{
+    &.panes-1, &.panes-2, &.panes-3{
+        $color1: #3ae60f;
+        $color2: #8500FF;
+        $color3: #FF7E00;
+        section{
+            padding-left: 0 !important;
+        }
+        .block1{
+            text-align: center;
+            margin: auto;
+        }
+        .kc{
+            font-size: 80px;
+            margin: 0;
+            &.kc-0{
+                margin: -24px 0;
+            }
+            &.kc-2{
+                margin: -22px 0;
+            }
+            &.kc-0, &.kc-2{
+                font-weight: lighter;
+                line-height: 1;
+                box-sizing: border-box;
+                overflow: hidden;
+                font-size: 70px;
+            }
+            &.kc-1{
+                line-height: 1;
+                box-sizing: border-box;
+                padding: 0.5rem 1rem;
+                color: white;
+                overflow: hidden;
+                position: relative;
+                z-index: 1;
+            }
+        }
+        &.panes-1{
+            color: $color1;
+            .kc-1{
+                background-color: $color1;
+            }
+        }
+        &.panes-2{
+            color: $color2;
+            .kc-1{
+                background-color: $color2;
+            }
+        }
+        &.panes-3{
+            color: $color3;
+            .kc-1{
+                background-color: $color3;
+            }
+        }
+    }
+}
