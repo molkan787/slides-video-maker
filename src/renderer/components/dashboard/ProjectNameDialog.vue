@@ -2,10 +2,10 @@
     <v-row justify="center">
         <v-dialog v-model="open" persistent max-width="400">
             <v-card>
-                <v-card-title class="headline">Create new Presentation</v-card-title>
+                <v-card-title class="headline">Project name</v-card-title>
                 <v-card-text>
-                    Type the presentation name (alpha-numeric only) <br> <br>
-                    <v-text-field v-model="name" label="Presentation Name" dense outlined hide-details filled block />
+                    Type the project name (alpha-numeric only) <br> <br>
+                    <v-text-field v-model="name" label="Project Name" dense outlined hide-details filled block />
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>

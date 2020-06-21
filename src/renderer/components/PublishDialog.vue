@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="open" persistent max-width="400">
       <v-card>
-        <v-card-title class="headline">Publish Presentation</v-card-title>
+        <v-card-title class="headline">Publish Video</v-card-title>
         <v-card-text>
             <br>
             <v-text-field :value="outputFilename" label="Output file" @click="selectOutputFile"
@@ -24,6 +24,8 @@
 <script>
 import { promptSaveFile } from '../helpers';
 import { rendererService } from '../services';
+import { mapState } from 'vuex';
+import path from 'path';
 
 export default {
     data:() => ({
@@ -37,6 +39,7 @@ export default {
         options: null,
     }),
     computed: {
+        ...mapState(['project']),
         statusText(){
             if(this.working){
                 if(this.statusCode == 'starting' || this.statusCode == ''){
@@ -76,11 +79,11 @@ export default {
             progress.on('changed', ({ success }) => this.progress = success);
             const resp = await progress.wait();
             if(resp == 'completed'){
-                await alert('Presentation got successfully published!');
+                await alert('Video Successfully Published!', 'Success!');
                 this.working = false;
                 this.open = false;
             }else{
-                alert('Something went wrong, Please try again.');
+                alert('Something went wrong, Please try again.', 'Error');
                 this.working = false;
             }
         },
@@ -91,6 +94,16 @@ export default {
             }]);
             if(filename){
                 this.outputFilename = filename;
+                this.assignProjectName(filename);
+            }
+        },
+
+        assignProjectName(filename){
+            if(!this.project.name){
+                const basename = path.basename(filename);
+                const projectname = basename.substr(0, basename.length - path.extname(basename).length);
+                this.project.name = projectname;
+                console.log(projectname)
             }
         },
 

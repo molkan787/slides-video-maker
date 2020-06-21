@@ -1,7 +1,8 @@
 <template>
     <v-navigation-drawer class="mydrawer" absolute permanent left >
       <template v-slot:prepend>
-        <h2 class="appname" style="color: #c6dadc !important;">Slides Video Maker</h2>
+        <!-- <h2 class="appname" style="color: #c6dadc !important;">Slides Video Maker</h2> -->
+        <img class="logo-img" src="@/assets/EZ_logo.png" />
       </template>
 
       <v-divider></v-divider>
@@ -23,35 +24,44 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
+      <template v-slot:append>
+        <v-btn text @click="openHelpUrl" light>Help</v-btn>
+      </template>
     </v-navigation-drawer>
 </template>
 
 <script>
-  export default {
-    props: {
-      current: {
-        type: String,
-        default: '',
-      },
-      available: {
-        type: Array,
-        default: () => []
-      }
+import shell from '../shell';
+export default {
+  props: {
+    current: {
+      type: String,
+      default: '',
     },
-    data:() => ({
-        items: [
-            { slug: 'dashboard', title: 'Dashboard', icon: 'mdi-home-city' },
-            { slug: 'design-setting', title: 'Design Setting', icon: 'mdi-home-city' },
-            { slug: 'editor', title: 'Editor', icon: 'mdi-home-city' },
-            { slug: 'timeline', title: 'Timeline', icon: 'mdi-home-city' },
-        ],
-    }),
-    methods: {
-        itemClick(item){
-          this.$emit('itemClick', item.slug);
-        }
+    available: {
+      type: Array,
+      default: () => []
     }
+  },
+  data:() => ({
+      items: [
+          { slug: 'dashboard', title: 'Dashboard', icon: 'mdi-home-city' },
+          { slug: 'design-setting', title: 'Templates', icon: 'mdi-home-city' },
+          { slug: 'editor', title: 'Editor', icon: 'mdi-home-city' },
+          { slug: 'timeline', title: 'Audio', icon: 'mdi-home-city' },
+      ],
+  }),
+  methods: {
+      itemClick(item){
+        this.$emit('itemClick', item.slug);
+      },
+
+      openHelpUrl(){
+          shell.openExternal('http://ezvideomaker.net/help')
+      }
   }
+}
 </script>
 
 <style lang="scss">
@@ -115,11 +125,21 @@
 .v-navigation-drawer__border{
     display: none !important;
 }
-h2.appname{
-    color: #c6dadc !important;
-    line-height: 1 !important;
-    padding: 18px 20px !important;
-    width: 100% !important;
-    margin: 0 !important;
+// h2.appname{
+//     color: #c6dadc !important;
+//     line-height: 1 !important;
+//     padding: 18px 20px !important;
+//     width: 100% !important;
+//     margin: 0 !important;
+// }
+.logo-img{
+  height: 100px;
+  margin-top: 7px;
+}
+</style>
+
+<style>
+.v-navigation-drawer__prepend{
+  text-align: center;
 }
 </style>

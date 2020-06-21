@@ -1,11 +1,7 @@
 <template>
     <div class="homePage">
         <v-app-bar dense dark elevation="1" class="header">
-            <v-toolbar-title class="header-title">{{ project.name || 'My Presentation' }}</v-toolbar-title>
-            <v-btn v-if="project.name" light elevation="0" tiny @click="saveClick" :loading="saveBtnLoading">
-                <v-icon>mdi-save</v-icon>
-                Save
-            </v-btn>
+            <v-toolbar-title class="header-title">{{ project.type == 'classic' ? 'Classic' : 'Kinetic' }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <template v-if="steps.current !== 'dashboard'">
                 <v-btn class="mybutton" @click="back" light right elevation="0" >
@@ -31,6 +27,7 @@
             <TimelineEditor v-else-if="step == 'timeline'" />
 
         </div>
+        <ProjectNameDialog ref="nameDialog"/>
     </div>
 </template>
 
@@ -44,6 +41,7 @@ import DesignSetting from './design-setting/DesignSetting';
 import TextInput from './text-input/TextInput';
 import Editor from './presentation-editor/Editor';
 import TimelineEditor from './timeline-editor/TimelineEditor';
+import ProjectNameDialog from './dashboard/ProjectNameDialog';
 export default{
     components: {
         NavigationDrawer,
@@ -51,7 +49,8 @@ export default{
         TimelineEditor,
         Dashboard,
         DesignSetting,
-        TextInput
+        TextInput,
+        ProjectNameDialog
     },
     computed: {
         ...mapState(['project', 'steps', 'app']),
@@ -72,16 +71,18 @@ export default{
     }),
     methods: {
         ...mapActions(['setProject']),
-        async saveClick(){
-            this.saveBtnLoading = true;
-            await ProjectsManager.saveCurrentProject();
-            await new Promise(r => setTimeout(r, 1000));
-            this.saveBtnLoading = false;
-        },
         async beforeDashboard(name){
-            if(name == 'dashboard' && this.project.name != null){
-                if(await confirm('Do you want to save current presentation before closing it?')){
-                    await ProjectsManager.saveCurrentProject();
+            if(name == 'dashboard' && this.steps.current != 'design-setting' && this.project.name != null){
+                if(await confirm('Do you want to save current presentation before closing it?', 'Wait!')){
+                    if(this.project.name){
+                        await ProjectsManager.saveCurrentProject();
+                    }else{
+                        const name = await this.$refs.nameDialog.prompt();
+                        if(name){
+                            this.project.name = name;
+                            await ProjectsManager.saveCurrentProject();
+                        }
+                    }
                 }
                 this.project.name = null;
             }
@@ -180,7 +181,7 @@ export default{
 
 <style lang="scss" scoped>
 .homePage{
-    height: 100%;;
+    height: 100%;
 }
 .header{
     background-color: #FEFCFE !important;

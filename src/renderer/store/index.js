@@ -27,7 +27,7 @@ export default new Vuex.Store({
     },
     project: {
       name: null,
-      type: '',
+      type: 1 ? 'classic' : 'kinetic',
       template: {},
       slides: [],
       audioFilename: '',

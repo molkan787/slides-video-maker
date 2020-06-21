@@ -21,10 +21,12 @@
         <div class="body">
             <template v-if="type == 'classic'">
 
-                <TemplateItem name="Image" :active="selected == classicSlides.image"
-                    @click="setSelected(classicSlides.image)">
-                    <ClassicSlide :data="classicSlides.image" :zoom="slideZoom" />
+                <TemplateItem v-for="(slide, index) in classicSlides.others" :key="'ot' + index"
+                    :name="'Template ' + (index + 1)" :active="selected == slide"
+                    @click="setSelected(slide)">
+                    <ClassicSlide :data="slide" :zoom="slideZoom" />
                 </TemplateItem>
+
                 <TemplateItem name="Color" :colorSlotsCount="1" :active="selected == classicSlides.color"
                     @click="setSelected(classicSlides.color)" :colors="pallet.colorSlide">
                     <ClassicSlide :data="classicSlides.color" :zoom="slideZoom" />
@@ -33,10 +35,10 @@
                     @click="setSelected(classicSlides.gradient)" :colors="pallet.gradientSlide">
                     <ClassicSlide :data="classicSlides.gradient" :zoom="slideZoom" />
                 </TemplateItem>
-                <TemplateItem v-for="(slide, index) in classicSlides.others" :key="'ot' + index"
-                    :name="'Template ' + (index + 1)" :active="selected == slide"
-                    @click="setSelected(slide)">
-                    <ClassicSlide :data="slide" :zoom="slideZoom" />
+                
+                <TemplateItem name="Image" :active="selected == classicSlides.image"
+                    @click="setSelected(classicSlides.image)">
+                    <ClassicSlide :data="classicSlides.image" :zoom="slideZoom" />
                 </TemplateItem>
 
             </template>
@@ -215,7 +217,7 @@ export default {
             const result = [];
             const template = { content: [], background: { type: 'image', src: '' } };
             template.content = [];
-            for(let i = 1; i <= 4; i++){
+            for(let i = 2; i <= 4; i+=2){
                 const slide = Object.clone(template);
                 slide.background.src = Editor.resolveAssetsPath('templates', 'classic', `template-${i}.png`);
                 result.push(slide);

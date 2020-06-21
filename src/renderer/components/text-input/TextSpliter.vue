@@ -13,7 +13,11 @@
 const MARK_CHAR = '🔶';
 export default {
     data:() => ({
-        text: 'Some random text\nis here'
+        text: [
+            'Text for slide 1',
+            'Text for slide 2',
+            'Text for slide 3',
+        ].join('\n')
     }),
     methods: {
         addMarkAtCurrentPosition(){

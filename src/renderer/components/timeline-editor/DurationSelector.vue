@@ -2,7 +2,7 @@
     <v-row justify="center">
     <v-dialog v-model="isOpen" persistent max-width="250">
         <v-card>
-            <v-card-title class="headline">Change Duration</v-card-title>
+            <v-card-title class="headline">{{ title }}</v-card-title>
             <v-card-text class="wrapper">
                 <Timeselector ref="timeselector" displayFormat="mm:ss" :interval="{m:1, s:1}" :displayHours="false"
                     v-model="date" :displayMinutes="true" :displaySeconds="true" >
@@ -29,6 +29,7 @@ export default {
     },
     data:() => ({
         isOpen: false,
+        title: '',
         current: 0,
         min: 0,
         date: new Date()
@@ -48,7 +49,8 @@ export default {
             this.resolve(false)
         },
 
-        handleRequest(current, min){
+        handleRequest(current, min, title){
+            this.title = title || 'Change Duration';
             this.current = current;
             this.min = min;
             this.parseTime();
@@ -68,10 +70,10 @@ export default {
             this.date.setMinutes(minutes, seconds);
         },
 
-        open(current, min){
+        open(current, min, title){
             return new Promise(resolve => {
                 this.resolve = resolve;
-                this.handleRequest(current, min);
+                this.handleRequest(current, min, title);
                 this.$nextTick(() => {
                     const input = this.$refs.timeselector.$el.querySelector('input');
                     // input.focus();

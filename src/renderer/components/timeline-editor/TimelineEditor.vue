@@ -4,6 +4,11 @@
 
         <div class="middle-card pa-2 player">
             <div class="canvas">
+                <div class="tools">
+                    <v-btn elevation="0" @click="removeAllMarkers">Remove all markers</v-btn>
+                    <br>
+                    <v-btn elevation="0" @click="autoDuration" class="mt-1">Auto duration</v-btn>
+                </div>
                 <div ref="playerSlideWrapper" class="playerSlideWrapper v-card" :style="{width: playerSlide.width + 'px'}">
                     <template v-if="currentSlide">
                         <ClassicSlide v-if="project.type == 'classic'" :data="currentSlide" :zoom="playerSlide.zoom"/>
@@ -102,6 +107,27 @@ export default {
         resizeHandler: null,
     }),
     methods: {
+        async removeAllMarkers(){
+            if(! await confirm('Remove all markers?')) return;
+            for(let slide of this.project.slides){
+                if(slide.starttime > 0)
+                    this.$set(slide, 'checked', false);
+            }
+            this.currentTime = 0;
+        },
+        async autoDuration(){
+            const dps = await this.$refs.durationSelector.open(5000, 1000, 'Duration per slide');
+            if(dps){
+                for(let i = 0; i < this.project.slides.length; i++){
+                    const slide = this.project.slides[i];
+                    this.$set(slide, 'checked', true);
+                    this.$set(slide, 'starttime', i * dps);
+                }
+                this.currentTime = 0;
+                const total = dps * this.project.slides.length
+                this.timeline.duration = total;
+            }
+        },
         async changeDuration(){
             this.stop();
             const duration = await this.$refs.durationSelector.open(
@@ -317,6 +343,13 @@ export default {
     width: 100%;
     margin: auto;
     height: calc(100% - 280px);
+    .tools{
+        float: left;
+        height: 0;
+        button{
+                width: 186px;
+        }
+    }
 }
 .player{
     .canvas{

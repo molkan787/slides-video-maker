@@ -3,22 +3,32 @@
         <div class="wrapper">
            <div class="cards">
                 <v-card class="left item" elevation="1">
-                    <h1>Create new Presentation</h1>
-                    <h4>Presentation Style:</h4>
+                    <h1>Create New Video</h1>
+                    <!-- <h4>Presentation Style:</h4>
                     <v-btn-toggle v-model="projectType" mandatory >
                         <v-btn value="classic">Classic</v-btn>
                         <v-btn value="kinetic">Kinetic</v-btn>
-                    </v-btn-toggle>
-                    <h4 class="mt-7">Project:</h4>
+                    </v-btn-toggle> -->
+                    <!-- <h4 class="mt-7">Project:</h4> -->
                     <v-btn-toggle v-model="inputRawText" mandatory >
-                        <v-btn :value="false">Start from<br>scratch</v-btn>
-                        <v-btn :value="true">Paste Text</v-btn>
+                        <v-btn class="my-switch-btn" :value="false">
+                            <div>
+                                <img src="@/assets/icons/blank_document.png">
+                                <br>Blank Slide
+                            </div>
+                        </v-btn>
+                        <v-btn class="my-switch-btn" :value="true">
+                            <div>
+                                <img src="@/assets/icons/paste_text.png">
+                                <br>Paste Text
+                            </div>
+                        </v-btn>
                     </v-btn-toggle>
-                    <v-btn @click="createProject" class="submit primary-button" block dark elevation="0">Create</v-btn>
+                    <v-btn @click="createProject" class="submit primary-button" block dark elevation="0">Start</v-btn>
                     <!-- <v-btn @click="loadProject" class="submit" block light elevation="0">Load</v-btn> -->
                 </v-card>
                 <v-card class="right item projects-list">
-                    <h1>My Presentations</h1>
+                    <h1>Saved Projects</h1>
                     <div class="list">
                         <div v-for="p in projects" :key="p">
                             <v-icon @click="deleteProject(p)" title="Delete">mdi-delete</v-icon>
@@ -29,27 +39,20 @@
                 </v-card>
            </div>
         </div>
-        <ProjectNameDialog ref="nameDialog"/>
     </div>
 </template>
 
 <script>
 import ProjectFactory from '../../project-factory';
 import ProjectsManager from '../../projects-manager';
-import ProjectNameDialog from './ProjectNameDialog';
 import { mapState } from 'vuex';
 export default {
-    components: {
-        ProjectNameDialog,
-    },
     computed: mapState(['project', 'steps', 'app']),
     methods: {
         async createProject(type){
-            const name = await this.$refs.nameDialog.prompt();
-            if(!name) return;
             this.app.rawInputRequested = this.inputRawText;
-            this.project.type = this.projectType;
-            this.project.name = name;
+            // this.project.type = this.projectType;
+            this.project.name = '';
             this.steps.current = 'design-setting';
         },
         async loadProject(name){
@@ -102,9 +105,10 @@ export default {
             display: inline-block;
             width: fit-content;
             padding: 20px;
+            min-width: 300px;
         }
         h1{
-            margin-bottom: 80px;
+            margin-bottom: 110px;
         }
         h4{
             margin-bottom: 10px;
@@ -116,9 +120,18 @@ export default {
             font-size: 15px;
             color: #555;
             &.submit{
-                margin-top: 100px;
+                margin-top: 130px;
             }
         }
+    }
+}
+.my-switch-btn{
+    div, img{
+        cursor: pointer;
+    }
+    height: 130px !important;
+    img{
+        opacity: 0.5;
     }
 }
 .projects-list{
