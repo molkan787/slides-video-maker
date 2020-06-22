@@ -76,7 +76,7 @@ export default {
         animation: 'fade',
         fontFamily: 'Arial',
         fontSize: '62.5px',
-        textColor: '#ffffff',
+        textColor: '#000000',
 
         selected: null,
 

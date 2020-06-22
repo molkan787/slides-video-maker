@@ -64,6 +64,8 @@ $footerHeight: 50px;
     width: 100%;
     height: $footerHeight;
     padding: 7px 5px 5px 5px;
+    display: block;
+    text-align: left;
 }
 h4{
     height: $headerHeight;

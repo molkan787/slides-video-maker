@@ -13,11 +13,9 @@
   <body>
     <div id="app"></div>
     <!-- Set `__static` path to static files in production -->
-    <% if (!process.browser) { %>
-      <script>
-        if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
-      </script>
-    <% } %>
+    <script>
+      if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+    </script>
 
     <script>
       window.onkeypress = function(e) {
@@ -48,28 +46,51 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        
         background: linear-gradient(to right, #FDFBFB, #EBEDEE 70%);
         font-size: 53px;
         font-weight: bold;
-        font-family: Arial, sans-serif !important;
+
       }
 
       .loadingPanel > span {
+        font-family: Arial, sans-serif !important;
         text-transform: uppercase;
         background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        transition: margin 0.5s;
+        /* transition-timing-function: ease-out; */
+      }
+      .loadingPanel > span.shifted-up{
+        margin-top: -260px;
       }
     </style>
     <div id="loadingPanel" class="loadingPanel">
       <span>EZ VIDEO MAKER</span>
     </div>
     <script>
-      window.addEventListener('load', () => {
-        const el = document.getElementById('loadingPanel');
-        el.addEventListener('transitionend', () => el.remove())
+      const el = document.getElementById('loadingPanel');
+      function showLoadingScreen(){
+        el.style.display = 'flex';
+        el.style.opacity = 1;
+        const se = document.getElementById('style-selector-root');
+        se.style.display = 'block';
+        se.style.opacity = 1;
+      };
+      function hideLoadingScreen(){
         el.style.opacity = 0;
+        document.getElementById('style-selector-root').style.opacity = 0;
+      };
+      window.addEventListener('load', () => {
+        el.addEventListener('transitionend', () => {
+          if(parseFloat(el.style.opacity) == 0){
+            el.style.display = 'none';
+          }
+        });
+        const span = document.querySelector('#loadingPanel span');
+        span.classList.add('shifted-up');
+        const see = document.getElementById('style-selector-root');
+        document.getElementById('style-selector-root').style.opacity = 1;
       })
     </script>
   </body>

@@ -65,6 +65,7 @@ export default class Editor{
     }
 
     static resolveAssetsPath(){
-        return path.join(__static, ...arguments).replace(/\\/g, '\\\\');
+        const pfx = isMacOS ? 'file://' : '';
+        return pfx + path.join(__static, ...arguments).replace(/\\/g, '\\\\');
     }
 }

@@ -56,6 +56,10 @@ export default {
                     .map(s => s.trim())
                     .filter(s => s.length);
         }
+    },
+
+    mounted(){
+        this.autoMarkEachLine();
     }
 }
 </script>
@@ -84,6 +88,8 @@ textarea{
 .footer{
     width: 100%;
     height: $footerHeight;
+    display: block;
+    text-align: left;
 }
 h4{
     height: $headerHeight;

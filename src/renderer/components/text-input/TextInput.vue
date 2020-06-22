@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .text-input-root{
     width: 100%;
     height: 100%;

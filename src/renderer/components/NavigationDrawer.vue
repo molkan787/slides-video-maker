@@ -2,7 +2,7 @@
     <v-navigation-drawer class="mydrawer" absolute permanent left >
       <template v-slot:prepend>
         <!-- <h2 class="appname" style="color: #c6dadc !important;">Slides Video Maker</h2> -->
-        <img class="logo-img" src="@/assets/EZ_logo.png" />
+        <img class="logo-img" src="@/assets/EZ_logo_red.jpg.png" />
       </template>
 
       <v-divider></v-divider>
@@ -26,7 +26,10 @@
       </v-list>
 
       <template v-slot:append>
-        <v-btn text @click="openHelpUrl" light>Help</v-btn>
+        <div class="footer">
+          <v-btn text @click="openHelpUrl" light>Help</v-btn>
+          <v-btn text @click="openAbout" light>About</v-btn>
+        </div>
       </template>
     </v-navigation-drawer>
 </template>
@@ -46,6 +49,7 @@ export default {
   },
   data:() => ({
       items: [
+          { slug: 'home', title: 'Home', icon: 'mdi-home-city' },
           { slug: 'dashboard', title: 'Dashboard', icon: 'mdi-home-city' },
           { slug: 'design-setting', title: 'Templates', icon: 'mdi-home-city' },
           { slug: 'editor', title: 'Editor', icon: 'mdi-home-city' },
@@ -59,6 +63,12 @@ export default {
 
       openHelpUrl(){
           shell.openExternal('http://ezvideomaker.net/help')
+      },
+
+      openAbout(){
+        const req = require;
+        const version = req('@/../../package.json').version;
+        alert(`Copyright © www.EzVideoMaker.net\nVersion: ${version}`, 'EZ VIDEO MAKER');
       }
   }
 }
@@ -134,7 +144,11 @@ export default {
 // }
 .logo-img{
   height: 100px;
-  margin-top: 7px;
+  margin-top: 11px;
+}
+.footer{
+  display: flex;
+  justify-content: space-evenly;
 }
 </style>
 

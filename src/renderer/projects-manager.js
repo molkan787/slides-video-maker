@@ -9,6 +9,11 @@ const PROJECTS_DIR = path.join(app.getPath('userData'), 'Projects');
 const PROJECT_FILE_EXTENSION = '.json';
 export default class ProjectsManager{
 
+    static getProjectsDir(){
+        const subdir = store.state.project.type == 'classic' ? 'classic' : 'kinetic';
+        return path.join(PROJECTS_DIR, subdir);
+    }
+
     static addProjectToList(name){
         const index = this.projectsList.indexOf(name);
         if(index == -1){
@@ -17,31 +22,35 @@ export default class ProjectsManager{
     }
 
     static async deleteProject(name){
-        const filename = path.join(PROJECTS_DIR, name + PROJECT_FILE_EXTENSION);
+        const filename = path.join(this.getProjectsDir(), name + PROJECT_FILE_EXTENSION);
         await deleteFile(filename);
         const index = this.projectsList.indexOf(name);
         this.projectsList.splice(index, 1);
     }
 
     static async getProjectsList(){
-        if(this.projectsList) return this.projectsList
-        const files = await readDir(PROJECTS_DIR);
-        this.projectsList = files.map(f => f.split('.')[0]);
+        try {
+            const files = await readDir(this.getProjectsDir());
+            this.projectsList = files.map(f => f.split('.')[0]);
+        } catch (error) {
+            this.projectsList = []
+        }
         return this.projectsList;
     }
-    
+
     static async saveCurrentProject(){
         const data = store.state.project;
         const jsonData = JSONfn.stringify(data);
         await prepareFolder(PROJECTS_DIR);
-        const filename = path.join(PROJECTS_DIR, data.name + PROJECT_FILE_EXTENSION);
+        await prepareFolder(this.getProjectsDir());
+        const filename = path.join(this.getProjectsDir(), data.name + PROJECT_FILE_EXTENSION);
         await writeFile(filename, jsonData);
         this.addProjectToList(data.name);
         return true;
     }
 
     static async loadProject(name){
-        const filename = path.join(PROJECTS_DIR, name + PROJECT_FILE_EXTENSION);
+        const filename = path.join(this.getProjectsDir(), name + PROJECT_FILE_EXTENSION);
         const jsonData = await readTextFile(filename);
         const data = JSONfn.parse(jsonData);
         store.dispatch('setProject', data);

@@ -30,8 +30,8 @@ class CostraClassic extends CostraFactory{
         }else if(type == 'image'){
             const _src = src.replace(/\\/g, '\\\\');
             this.loadImage(_src).then(() => {
-                slideElement.style.background = `url("${_src})"`;
-                document.body.style.background = `url("${_src})"`;
+                slideElement.style.background = `url("${_src}")`;
+                document.body.style.background = `url("${_src}")`;
             })
             return;
         }else if(type == 'css'){

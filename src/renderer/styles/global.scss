@@ -16,6 +16,9 @@
 *:not(html):not(i):not(.loadingPanel){
     font-family: Exo2;
 }
+img{
+    pointer-events: none;
+}
 
 .theme--light.v-application {
     background: #E8EBEF;

@@ -3,7 +3,7 @@
     <v-dialog v-model="open" persistent max-width="360">
       <v-card>
         <v-card-title class="headline">{{ title }}</v-card-title>
-        <v-card-text>{{ text }}</v-card-text>
+        <v-card-text class="text">{{ text }}</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="cancelClick" v-if="cancelButtonText">{{ cancelButtonText }}</v-btn>
@@ -68,3 +68,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.text{
+    white-space: pre-wrap;
+}
+</style>

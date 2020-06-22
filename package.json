@@ -127,10 +127,10 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/EZ_icon_blue.icns"
+      "icon": "build/icons/EZ_icon_red.icns"
     },
     "win": {
-      "icon": "build/icons/EZ_icon_blue.ico",
+      "icon": "build/icons/EZ_icon_red.ico",
       "target": [
         {
           "target": "nsis",

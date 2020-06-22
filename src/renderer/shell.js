@@ -14,4 +14,8 @@ export default class Shell{
         return electron.shell.openExternal(url)
     }
 
+    static setProjectType(type){
+        store.state.project.type = type;
+    }
+
 }

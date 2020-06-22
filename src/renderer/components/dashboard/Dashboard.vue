@@ -48,6 +48,11 @@ import ProjectsManager from '../../projects-manager';
 import { mapState } from 'vuex';
 export default {
     computed: mapState(['project', 'steps', 'app']),
+    watch: {
+        'project.type'(){
+            this.loadProjects();
+        }
+    },
     methods: {
         async createProject(type){
             this.app.rawInputRequested = this.inputRawText;
@@ -63,6 +68,11 @@ export default {
             if(await confirm(`Delete project '${name}'? This action cannot be undone.`)){
                 await ProjectsManager.deleteProject(name);
             }
+        },
+
+        async loadProjects(){
+            this.projects = [];
+            this.projects = await ProjectsManager.getProjectsList();
         }
     },
     data:() => ({
@@ -72,7 +82,7 @@ export default {
     }),
     async mounted(){
         this.projectType = this.project.type || 'classic';
-        this.projects = await ProjectsManager.getProjectsList();
+        this.loadProjects();
     }
 }
 </script>

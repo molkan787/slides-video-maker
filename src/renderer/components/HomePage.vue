@@ -28,6 +28,7 @@
 
         </div>
         <ProjectNameDialog ref="nameDialog"/>
+        <StyleSelector />
     </div>
 </template>
 
@@ -42,6 +43,8 @@ import TextInput from './text-input/TextInput';
 import Editor from './presentation-editor/Editor';
 import TimelineEditor from './timeline-editor/TimelineEditor';
 import ProjectNameDialog from './dashboard/ProjectNameDialog';
+import StyleSelector from './StyleSelector';
+
 export default{
     components: {
         NavigationDrawer,
@@ -50,7 +53,8 @@ export default{
         Dashboard,
         DesignSetting,
         TextInput,
-        ProjectNameDialog
+        ProjectNameDialog,
+        StyleSelector,
     },
     computed: {
         ...mapState(['project', 'steps', 'app']),
@@ -59,9 +63,9 @@ export default{
         },
         availableMenuItems(){
             const s = this.step;
-            if(s == 'dashboard') return [0];
-            else if(s == 'design-setting') return [0, 1];
-            else if(s == 'editor' || s == 'timeline') return [0, 2, 3];
+            if(s == 'dashboard') return [0, 1];
+            else if(s == 'design-setting') return [0, 1, 2];
+            else if(s == 'editor' || s == 'timeline') return [0, 1, 3, 4];
         },
     },
     data:() => ({
@@ -88,7 +92,17 @@ export default{
             }
         },
         async navigationItemClick(name){
+            let showHome = false;
+            if(name == 'home'){
+                name = 'dashboard';
+                showHome = true;
+            }
             await this.beforeDashboard(name);
+            if(this.textInputStep) this.textInputStep = false;
+            if(showHome){
+                showLoadingScreen();
+                await new Promise(r => setTimeout(r, 600));
+            }
             this.steps.current = name;
         },
         async back(){

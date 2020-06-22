@@ -1,3 +1,4 @@
+window.isMacOS = process.platform == 'darwin';
 import mypolifill from './mypolifill';
 import path from 'path'
 import Vue from 'vue'
