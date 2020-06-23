@@ -45,6 +45,9 @@ export default new Vuex.Store({
   actions: {
     setProject({state}, project){
       Object.patch(state.project, project);
+      if(state.timelineEditor.audio){
+        state.timelineEditor.audio.unload();
+      }
       state.timelineEditor.audio = null;
       state.timelineEditor.currentTime = 0;
     }

@@ -10,14 +10,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 const MARK_CHAR = '🔶';
 export default {
+    computed: mapState(['project']),
     data:() => ({
-        text: [
-            'Text for slide 1',
-            'Text for slide 2',
-            'Text for slide 3',
-        ].join('\n')
+        text: ''
     }),
     methods: {
         addMarkAtCurrentPosition(){
@@ -59,7 +57,24 @@ export default {
     },
 
     mounted(){
-        this.autoMarkEachLine();
+        if(this.project.type == 'classic'){
+            this.text = [
+                'Text for slide 1',
+                'Text for slide 2',
+                'Text for slide 3',
+            ].join('\n');
+            this.autoMarkEachLine();
+        }else{
+            this.text = [
+                'Text for slide 1',
+                'this is line 2',
+                'and last line' + MARK_CHAR,
+                '',
+                'Text for slide 2',
+                'this is line 2',
+                'and last line' + MARK_CHAR,
+            ].join('\n')
+        }
     }
 }
 </script>

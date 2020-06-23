@@ -176,11 +176,24 @@ export default {
         async addAudio(){
             this.stop();
             this.addAudioBtnLoading = true;
-            const audio = await Editor.promptAudio();
-            if(audio){
-                if(this.audio) this.audio.unload();
-                this.audio = audio.audio;
-                this.project.audioFilename = audio.filename;
+            try {
+                const audio = await Editor.promptAudio();
+                if(audio){
+                    if(this.audio) this.audio.unload();
+                    this.audio = audio.audio;
+                    this.project.audioFilename = audio.filename;
+                }
+            } catch (error) {
+                alert('An error occured when loading audio file', 'Error!');
+            }
+            this.addAudioBtnLoading = false;
+        },
+        async loadCurrentAudio(){
+            this.addAudioBtnLoading = true;
+            try {
+                this.audio = await Editor.loadAudio(this.project.audioFilename);
+            } catch (error) {
+                alert('An error occured when loading audio file', 'Error!');
             }
             this.addAudioBtnLoading = false;
         },
@@ -272,6 +285,10 @@ export default {
         this.$set(firstSlide, 'checked', true);
         this.currentSlide = firstSlide;
         this.updateSizes();
+
+        if(this.project.audioFilename && !this.audio){
+            this.loadCurrentAudio();
+        }
     },
     created(){
         if(this.timeline.duration == -1){

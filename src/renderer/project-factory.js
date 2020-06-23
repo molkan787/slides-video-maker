@@ -71,13 +71,13 @@ export default class ProjectFactory{
             template: '',
             duration: 5000,
         };
-        const createSlide = () => Object.clone(slide);
         const project = {
             type: 'kinetic',
             template: {
+                slide,
                 templates,
                 createNewSlide(positionIndex){
-                    const _slide = createSlide();
+                    const _slide = Object.clone(this.slide);
                     _slide.template = this.templates[positionIndex % this.templates.length];
                     return _slide;
                 }
@@ -91,9 +91,8 @@ export default class ProjectFactory{
         if(rawSlides){
             for(let i = 0; i < rawSlides.length; i++){
                 const slideStr = rawSlides[i];
-                const lines = slideStr.split('\n');
                 const slide = project.template.createNewSlide(i);
-                slide.content = lines;
+                slide.content = this.rawContentToKineticContent(slideStr);
                 project.slides.push(slide);
             }
         }else{
@@ -102,6 +101,14 @@ export default class ProjectFactory{
             }
         }
         return project;
+    }
+
+    static rawContentToKineticContent(raw){
+        const lines = raw.split('\n');
+        for(let i = lines.length; i < 3; i++){
+            lines.push(' ');
+        }
+        return lines;
     }
 
     // ============== Helpers ==============

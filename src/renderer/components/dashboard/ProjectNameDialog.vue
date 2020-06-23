@@ -52,7 +52,7 @@ export default {
                 if(error == 'illegal_character'){
                   alert('Please use only alpha-numeric characters.');
                 }else if(error == 'name_exist'){
-                  alert('A presentation with the same name already exist.');
+                  alert('A project with the same name already exist.');
                 }
                 return false;
             }

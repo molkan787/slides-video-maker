@@ -64,6 +64,17 @@ export default class Editor{
         }
     }
 
+    static async loadAudio(filename){
+        const audio = new Howl({
+            src: [filename]
+        });
+        await new Promise((resolve, reject) => {
+            audio.once('load', resolve);
+            audio.once('loaderror', reject);
+        });
+        return audio
+    }
+
     static resolveAssetsPath(){
         const pfx = isMacOS ? 'file://' : '';
         return pfx + path.join(__static, ...arguments).replace(/\\/g, '\\\\');

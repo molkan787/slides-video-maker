@@ -4,9 +4,9 @@
             <div class="background"></div>
             <section class="content">
                 <div class="block1">
-                    <h5 :key="'k1' + kcKey" @blur="flushChanges($event, 0)" :contenteditable="enableEditing" class="kc kc-0">{{ data.content[0] }}</h5>
-                    <h1 :key="'k2' + kcKey" @blur="flushChanges($event, 1)" :contenteditable="enableEditing" class="kc kc-1">{{ data.content[1] }}</h1>
-                    <h5 :key="'k3' + kcKey" @blur="flushChanges($event, 2)" :contenteditable="enableEditing" class="kc kc-2">{{ data.content[2] }}</h5>
+                    <h5 :key="'k1' + kcKey" @focus="activated" @blur="flushChanges($event, 0)" :contenteditable="enableEditing" class="kc kc-0">{{ data.content[0] }}</h5>
+                    <h1 :key="'k2' + kcKey" @focus="activated" @blur="flushChanges($event, 1)" :contenteditable="enableEditing" class="kc kc-1">{{ data.content[1] }}</h1>
+                    <h5 :key="'k3' + kcKey" @focus="activated" @blur="flushChanges($event, 2)" :contenteditable="enableEditing" class="kc kc-2">{{ data.content[2] }}</h5>
                     <div class="kc kc-3"></div>
                 </div>
             </section>
@@ -41,6 +41,9 @@ export default {
     methods: {
         flushChanges(event, index){
             this.$set(this.data.content, index, event.target.textContent);
+        },
+        activated(event){
+            event.target.innerText = event.target.innerText.trim();
         }
     }
 }
