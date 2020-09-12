@@ -1,6 +1,6 @@
 {
   "name": "ez-video-maker",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "App for creating presentation video using slides",
   "author": "Dahmane Seghier <contact@dahmane.pl>",
   "scripts": {
