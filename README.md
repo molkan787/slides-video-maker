@@ -1,6 +1,6 @@
-# resto-pos
+# Slides-video-maker
 
-> An electron-vue project
+> An electron-based app used to generate marketing videos using slides (simple slide like powerpoint, or more advanced with kinetic animations...), The app uses anime.js to animate content, then it uses electron/chrome api to capture each frame of the animation and finally using ffmpeg it assembles all frames and the audio to generate a nice marketing video.
 
 #### Build Setup
 
